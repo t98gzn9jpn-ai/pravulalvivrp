@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="uk" class="scroll-smooth h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Львів RP | Правила та Кодекс Сервера</title>
+    
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        coffee: {
+                            950: '#100B07',
+                            900: '#160E09',
+                            800: '#24160E',
+                            700: '#3A2417',
+                        },
+                        gold: {
+                            300: '#FFE599',
+                            400: '#FFCE54',
+                            500: '#F5B027',
+                            600: '#D98A1C',
+                        },
+                        cream: {
+                            100: '#FFFDF9',
+                            200: '#F5ECE1',
+                            300: '#E2D3C0',
+                            400: '#A39686'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        *, ::before, ::after {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
+            background-color: #100B07;
+            color: #F5ECE1;
+            min-height: 100vh;
+            min-height: 100dvh;
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(36, 22, 14, 0.95) 0%, rgba(22, 14, 9, 0.98) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(217, 138, 28, 0.22);
+        }
+
+        .glass-card-active {
+            background: linear-gradient(135deg, rgba(61, 38, 24, 0.95) 0%, rgba(36, 22, 14, 0.98) 100%);
+            border-color: rgba(245, 176, 39, 0.65);
+            box-shadow: 0 0 15px rgba(245, 176, 39, 0.15);
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFE599 0%, #F5B027 50%, #D98A1C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased flex flex-col justify-between min-h-full selection:bg-gold-600 selection:text-coffee-950">
+
+    <!-- INITIAL LANGUAGE SELECTION MODAL -->
+    <div id="lang-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-coffee-950/95 backdrop-blur-md">
+        <div class="glass-card max-w-xs w-full p-6 rounded-2xl border-2 border-gold-500/50 text-center shadow-2xl space-y-5">
+            <!-- Lion Crest Header -->
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-gold-500 to-coffee-800 p-[1px] shadow-lg flex items-center justify-center">
+                <div class="w-full h-full bg-coffee-900 rounded-[15px] flex items-center justify-center p-2">
+                    <svg viewBox="0 0 100 100" class="w-full h-full fill-gold-500">
+                        <path d="M50 5 L85 20 V50 C85 72.5 50 95 50 95 C50 95 15 72.5 15 50 V20 L50 5Z" fill="none" stroke="currentColor" stroke-width="4"/>
+                        <path d="M42 32 C45 30 52 30 55 33 C58 36 56 40 54 42 C58 41 63 43 64 47 C65 52 61 56 57 56 C62 57 66 60 65 66 C64 72 57 74 52 72 L54 78 L47 78 L48 72 C44 72 40 70 38 66 L43 63 C44 65 47 67 50 67 C53 67 57 65 57 62 C57 59 53 58 48 58 L45 53 L51 53 C54 53 56 50 55 48 C54 46 51 46 48 47 L44 42 C47 42 50 40 49 38 C48 36 45 36 43 37 L42 32 Z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="font-serif font-extrabold text-2xl text-cream-100 tracking-wide">ЛЬВІВ <span class="gold-gradient-text">RP</span></h2>
+                <p class="text-xs text-cream-300 mt-1 font-medium">Оберіть мову / Выберите язык</p>
+            </div>
+
+            <div class="space-y-3 pt-1">
+                <button type="button" onclick="window.selectLang('ua')" class="w-full py-3.5 px-4 rounded-xl bg-gold-500 hover:bg-gold-400 active:bg-gold-600 text-coffee-950 font-extrabold text-sm tracking-wide transition-all flex items-center justify-center gap-3 shadow-md">
+                    <span class="text-lg">🇺🇦</span>
+                    <span>Українська</span>
+                </button>
+                <button type="button" onclick="window.selectLang('ru')" class="w-full py-3.5 px-4 rounded-xl bg-coffee-800 hover:bg-coffee-700 active:bg-coffee-900 text-cream-100 border border-gold-600/40 font-extrabold text-sm tracking-wide transition-all flex items-center justify-center gap-3 shadow-md">
+                    <span class="text-lg">🇷🇺</span>
+                    <span>Русский</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTENT -->
+    <div id="app-content" class="flex flex-col flex-grow min-h-screen">
+        <!-- HEADER -->
+        <header class="sticky top-0 z-30 bg-coffee-900/95 backdrop-blur-md border-b border-gold-600/30 px-4 py-3">
+            <div class="max-w-3xl mx-auto flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-coffee-800 border border-gold-500/40 flex items-center justify-center p-1.5 shadow-sm">
+                        <svg viewBox="0 0 100 100" class="w-full h-full fill-gold-500">
+                            <path d="M50 5 L85 20 V50 C85 72.5 50 95 50 95 C50 95 15 72.5 15 50 V20 L50 5Z" fill="none" stroke="currentColor" stroke-width="5"/>
+                            <path d="M42 32 C45 30 52 30 55 33 C58 36 56 40 54 42 C58 41 63 43 64 47 C65 52 61 56 57 56 C62 57 66 60 65 66 C64 72 57 74 52 72 L54 78 L47 78 L48 72 C44 72 40 70 38 66 L43 63 C44 65 47 67 50 67 C53 67 57 65 57 62 C57 59 53 58 48 58 L45 53 L51 53 C54 53 56 50 55 48 C54 46 51 46 48 47 L44 42 C47 42 50 40 49 38 C48 36 45 36 43 37 L42 32 Z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 id="app-header-title" class="font-serif font-extrabold text-base tracking-wider text-cream-100 leading-none">
+                            ЛЬВІВ <span class="gold-gradient-text">RP</span>
+                        </h1>
+                        <span id="app-header-subtitle" class="text-[9px] text-cream-400 font-medium tracking-widest uppercase block mt-0.5">Офіційні Правила та Кодекс</span>
+                    </div>
+                </div>
+
+                <!-- Language Switcher Button -->
+                <button type="button" onclick="window.toggleLang()" class="px-3 py-1.5 rounded-full bg-coffee-800 border border-gold-500/40 text-gold-400 font-bold text-xs flex items-center gap-1.5 active:scale-95 transition-transform shadow-sm">
+                    <i class="fa-solid fa-globe text-gold-500"></i>
+                    <span id="current-lang-pill">UA</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN CONTAINER -->
+        <main class="max-w-3xl mx-auto px-3.5 py-4 flex-grow w-full space-y-4">
+
+            <!-- SEARCH BAR -->
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gold-500 text-sm">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <input 
+                    type="text" 
+                    id="search-input" 
+                    placeholder="Пошук (ПДР 15.3, DM, маска, євро, авто)..." 
+                    class="w-full pl-10 pr-10 py-3 rounded-xl bg-coffee-900 border border-gold-600/30 text-cream-100 placeholder-cream-400/50 focus:outline-none focus:border-gold-500 text-xs sm:text-sm shadow-inner transition-all"
+                    oninput="window.handleSearch()"
+                >
+                <button 
+                    type="button"
+                    id="clear-search" 
+                    onclick="window.clearSearch()" 
+                    class="hidden absolute inset-y-0 right-0 pr-3.5 flex items-center text-cream-400 hover:text-gold-400 text-sm"
+                >
+                    <i class="fa-solid fa-circle-xmark"></i>
+                </button>
+            </div>
+
+            <!-- CATEGORY BUTTONS GRID (2 BUTTONS PER ROW) -->
+            <div class="grid grid-cols-2 gap-2.5 sm:gap-3" id="category-pills">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- ACTIVE CATEGORY TITLE & COUNT -->
+            <div class="flex items-center justify-between text-xs pt-2 border-b border-gold-600/20 pb-2">
+                <h2 id="section-title" class="font-serif font-bold text-gold-400 text-sm sm:text-base flex items-center gap-2">
+                    <!-- Title injected via JS -->
+                </h2>
+                <span class="text-cream-400 text-[11px]"><span id="rules-count" class="text-gold-400 font-bold">0</span> <span id="count-label">пунктів</span></span>
+            </div>
+
+            <!-- RULES LIST CONTAINER -->
+            <div id="rules-container" class="space-y-3">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- EMPTY SEARCH RESULTS -->
+            <div id="no-results" class="hidden text-center py-10 glass-card rounded-2xl px-4">
+                <div class="w-12 h-12 mx-auto mb-2 rounded-full bg-coffee-800 flex items-center justify-center text-gold-500 text-xl">
+                    <i class="fa-solid fa-file-circle-xmark"></i>
+                </div>
+                <h3 id="no-res-title" class="text-sm font-bold text-cream-100 mb-1">Нічого не знайдено</h3>
+                <p id="no-res-desc" class="text-xs text-cream-400 mb-3">Спробуйте змінити пошуковий запит або категорію.</p>
+                <button type="button" onclick="window.clearSearch()" id="reset-search-btn" class="bg-gold-500 text-coffee-950 font-extrabold px-4 py-2 rounded-xl text-xs uppercase shadow-md">
+                    Скинути пошук
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- TOAST NOTIFICATIONS -->
+    <div id="toast-container" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none max-w-[90vw]"></div>
+
+    <!-- APPLICATION LOGIC -->
+    <script>
+        // TELEGRAM WEB APP INIT
+        (function initTelegram() {
+            try {
+                const tg = window.Telegram?.WebApp;
+                if (tg) {
+                    tg.ready();
+                    tg.expand();
+                    if (tg.setHeaderColor) tg.setHeaderColor('#100B07');
+                    if (tg.setBackgroundColor) tg.setBackgroundColor('#100B07');
+                }
+            } catch (e) {
+                console.warn("Telegram WebApp context unavailable", e);
+            }
+        })();
+
+        function hapticFeedback() {
+            try {
+                const tg = window.Telegram?.WebApp;
+                if (tg?.HapticFeedback) {
+                    tg.HapticFeedback.impactOccurred('light');
+                }
+            } catch(e) {}
+        }
+
+        // GLOBAL APP STATE
+        window.currentLang = 'ua';
+        window.activeCategory = 'all';
+        window.searchQuery = '';
+
+        // LOCALIZATION DICTIONARY
+        const i18n = {
+            ua: {
+                subtitle: "Офіційні Правила та Кодекс",
+                placeholder: "Пошук (ПДР 15.3, DM, маска, євро, авто)...",
+                countLabel: "пунктів",
+                noResTitle: "Нічого не знайдено",
+                noResDesc: "Спробуйте змінити пошуковий запит або категорію.",
+                resetSearch: "Скинути пошук",
+                copySuccess: "Пункт скопійовано!",
+                copyBtn: "Скопіювати",
+                punishmentLabel: "Покарання:",
+                categories: {
+                    all: "Усі правила",
+                    cat1: "1. Загальні положення",
+                    cat2: "2. Повага та спілкування",
+                    cat3: "3. Зелені зони й банди",
+                    cat4: "4. Бойовий RP, RDM, VDM",
+                    cat5: "5. Правила RP-поведінки",
+                    cat6: "6. Вихід з гри & Ухилення",
+                    cat7: "7. Вигляд та Імена",
+                    cat8: "8. Голосовий чат",
+                    cat9: "9. Спам і реклама",
+                    cat10: "10. Чити та ПО",
+                    cat11: "11. Ігрові механіки",
+                    cat12: "12. Піротехніка",
+                    cat13: "13. Домагання (18+)",
+                    cat14: "14. Система покарань",
+                    cat15: "15. ПДР і транспорт",
+                    cat16: "16. Конституція",
+                    cat17: "17. Адмін. кодекс",
+                    cat18: "18. Кримінальний кодекс",
+                    cat19: "19. Процесуальний кодекс",
+                    cat20: "20. Повноваження органів",
+                    cat21: "21. Правила держорг.",
+                    cat22: "22. Правила крайму"
+                },
+                titles: {
+                    all: "Усі правила сервера",
+                    cat1: "1. Загальні положення",
+                    cat2: "2. Повага та спілкування",
+                    cat3: "3. Зелені зони, територія банди й титули",
+                    cat4: "4. RDM, VDM та інші порушення бойового RP",
+                    cat5: "5. Правила RP-поведінки",
+                    cat6: "6. Вихід із гри та ухилення від покарань",
+                    cat7: "7. Зовнішній вигляд та імена персонажів",
+                    cat8: "8. Голосовий чат",
+                    cat9: "9. Спам і реклама",
+                    cat10: "10. Чити та стороннє програмне забезпечення",
+                    cat11: "11. Використання ігрових механік",
+                    cat12: "12. Піротехніка",
+                    cat13: "13. Домагання та неприйнятна поведінка",
+                    cat14: "14. Система покарань",
+                    cat15: "15. ПДР і транспорт",
+                    cat16: "16. Конституція",
+                    cat17: "17. Адміністративний кодекс",
+                    cat18: "18. Кримінальний кодекс",
+                    cat19: "19. Процесуальний кодекс",
+                    cat20: "20. Повноваження державних органів",
+                    cat21: "21. Правила державних організацій",
+                    cat22: "22. Правила кримінальних організацій"
+                }
+            },
+            ru: {
+                subtitle: "Официальные Правила и Кодекс",
+                placeholder: "Поиск (ПДД 15.3, DM, маска, евро, авто)...",
+                countLabel: "пунктов",
+                noResTitle: "Ничего не найдено",
+                noResDesc: "Попробуйте изменить поисковый запрос или категорию.",
+                resetSearch: "Сбросить поиск",
+                copySuccess: "Пункт скопирован!",
+                copyBtn: "Скопировать",
+                punishmentLabel: "Наказание:",
+                categories: {
+                    all: "Все правила",
+                    cat1: "1. Общие положения",
+                    cat2: "2. Уважение и общение",
+                    cat3: "3. Зеленые зоны и банды",
+                    cat4: "4. Боевой RP, RDM, VDM",
+                    cat5: "5. Правила RP-поведения",
+                    cat6: "6. Выход из игры & Уход",
+                    cat7: "7. Внешность и Имена",
+                    cat8: "8. Голосовой чат",
+                    cat9: "9. Спам и реклама",
+                    cat10: "10. Читы и ПО",
+                    cat11: "11. Игровые механики",
+                    cat12: "12. Пиротехника",
+                    cat13: "13. Домогательства (18+)",
+                    cat14: "14. Система наказаний",
+                    cat15: "15. ПДД и транспорт",
+                    cat16: "16. Конституция",
+                    cat17: "17. Админ. кодекс",
+                    cat18: "18. Уголовный кодекс",
+                    cat19: "19. Процессуальный кодекс",
+                    cat20: "20. Полномочия органов",
+                    cat21: "21. Правила госорг.",
+                    cat22: "22. Правила крайма"
+                },
+                titles: {
+                    all: "Все правила сервера",
+                    cat1: "1. Общие положения",
+                    cat2: "2. Уважение и общение",
+                    cat3: "3. Зеленые зоны, территория банды и титулы",
+                    cat4: "4. RDM, VDM и другие нарушения боевого RP",
+                    cat5: "5. Правила RP-поведения",
+                    cat6: "6. Выход из игры и уклонение от наказаний",
+                    cat7: "7. Внешний вид и имена персонажей",
+                    cat8: "8. Голосовой чат",
+                    cat9: "9. Спам и реклама",
+                    cat10: "10. Читы и стороннее программное обеспечение",
+                    cat11: "11. Использование игровых механик",
+                    cat12: "12. Пиротехника",
+                    cat13: "13. Домогательства и неприемлемое поведение",
+                    cat14: "14. Система наказаний",
+                    cat15: "15. ПДД и транспорт",
+                    cat16: "16. Конституция",
+                    cat17: "17. Административный кодекс",
+                    cat18: "18. Уголовный кодекс",
+                    cat19: "19. Процессуальный кодекс",
+                    cat20: "20. Полномочия государственных органов",
+                    cat21: "21. Правила государственных организаций",
+                    cat22: "22. Правила криминальных организаций"
+                }
+            }
+        };
+
+        const categoryIcons = {
+            all: "fa-list-check",
+            cat1: "fa-book-bookmark",
+            cat2: "fa-comments",
+            cat3: "fa-tree",
+            cat4: "fa-crosshair",
+            cat5: "fa-user-gear",
+            cat6: "fa-right-from-bracket",
+            cat7: "fa-id-card",
+            cat8: "fa-microphone",
+            cat9: "fa-bullhorn",
+            cat10: "fa-bug",
+            cat11: "fa-gamepad",
+            cat12: "fa-wand-magic-sparkles",
+            cat13: "fa-triangle-exclamation",
+            cat14: "fa-gavel",
+            cat15: "fa-car",
+            cat16: "fa-scale-balanced",
+            cat17: "fa-building-shield",
+            cat18: "fa-handcuffs",
+            cat19: "fa-file-contract",
+            cat20: "fa-landmark",
+            cat21: "fa-user-shield",
+            cat22: "fa-mask"
+        };
+
+        // COMPLETE 22 SECTIONS DATASET
+        const rulesData = [
+            // SECTION 1: Загальні положення
+            { category: "cat1", code: "Пункт 1.1", title_ua: "Загальне положення", title_ru: "Общее положение", desc_ua: "Кожен гравець зобов’язаний дотримуватися правил сервера та шанобливо ставитися до інших учасників.", desc_ru: "Каждый игрок обязан соблюдать правила сервера и уважительно относиться к другим участникам.", punishment_ua: "Визначено загальним регламентом", punishment_ru: "Определено общим регламентом", tags: ["1.1", "шанування", "уважение"] },
+            { category: "cat1", code: "Пункт 1.2", title_ua: "Відповідальність", title_ru: "Ответственность", desc_ua: "Незнання правил не звільняє від відповідальності.", desc_ru: "Незнание правил не освобождает от ответственности.", punishment_ua: "Застосування санкції згідно з кодексом", punishment_ru: "Применение санкции согласно кодексу", tags: ["1.2", "незнання", "незнание"] },
+            { category: "cat1", code: "Пункт 1.3", title_ua: "Перешкода та провокації", title_ru: "Помеха и провокации", desc_ua: "Заборонено навмисно заважати іншим гравцям, псувати ігровий процес або провокувати конфлікти без RP-причини.", desc_ru: "Запрещено намеренно мешать другим игрокам, портить игровой процесс или провоцировать конфликты без RP-причины.", punishment_ua: "Warn → Ban 1-3 дні", punishment_ru: "Warn → Ban 1-3 дня", tags: ["1.3", "завада", "помеха", "конфлікт"] },
+            { category: "cat1", code: "Пункт 1.4", title_ua: "Права Адміністрації", title_ru: "Права Администрации", desc_ua: "Адміністрація має право призначати покарання за порушення, навіть якщо конкретну дію не описано окремим пунктом, але вона явно суперечить змісту правил.", desc_ru: "Администрация имеет право назначать наказание за нарушения, даже если конкретное действие не описано отдельным пунктом, но оно явно противоречит смыслу правил.", punishment_ua: "На розсуд Адміністрації", punishment_ru: "На усмотрение Администрации", tags: ["1.4", "адмін", "администрация"] },
+            { category: "cat1", code: "Пункт 1.5", title_ua: "Критерії покарання", title_ru: "Критерии наказания", desc_ua: "Під час вибору покарання враховуються тяжкість порушення, навмисність, наслідки та повторність.", desc_ru: "При выборе наказания учитываются тяжесть нарушения, намеренность, последствия и повторность.", punishment_ua: "Індивідуальний підбір санкції", punishment_ru: "Индивидуальный подбор санкции", tags: ["1.5", "тяжкість", "повторність"] },
+
+            // SECTION 2: Повага та спілкування
+            { category: "cat2", code: "Пункт 2.1", title_ua: "Образи та цькування", title_ru: "Оскорбления и травля", desc_ua: "Заборонено ображати гравців, принижувати, цькувати, систематично провокувати та переслідувати їх з метою зіпсувати ігровий процес.", desc_ru: "Запрещено оскорблять игроков, унижать, травливать, систематически провоцировать и преследовать их с целью испортить игровой процесс.", punishment_ua: "Warn → Ban 12 годин → Ban 1–3 дні", punishment_ru: "Warn → Ban 12 часов → Ban 1–3 дня", tags: ["2.1", "образа", "цькування", "травля"] },
+            { category: "cat2", code: "Пункт 2.2", title_ua: "Образи родичів", title_ru: "Оскорбление родных", desc_ua: "Заборонено образи, принизливі висловлювання та цілеспрямовані провокації щодо родичів гравця.", desc_ru: "Запрещены оскорбления, унизительные высказывания и целенаправленные провокации в отношении родственников игрока.", punishment_ua: "Ban 3 дні → Ban 7 днів", punishment_ru: "Ban 3 дня → Ban 7 дней", tags: ["2.2", "родичі", "мама", "родные"] },
+            { category: "cat2", code: "Пункт 2.3", title_ua: "Погрози в реальному житті", title_ru: "Угрозы в реальной жизни", desc_ua: "Заборонено реальні погрози розправою, заподіянням шкоди здоров’ю чи майну, а також публікацію таких погроз на адресу гравців.", desc_ru: "Запрещены реальные угрозы расправой, причинением вреда здоровью или имуществу, а также публикация таких угроз в адрес игроков.", punishment_ua: "Ban 7–14 днів або Permanent Ban залежно від тяжкості", punishment_ru: "Ban 7–14 дней или Permanent Ban в зависимости от тяжести", tags: ["2.3", "погрози", "реальне життя", "угрозы"] },
+            { category: "cat2", code: "Пункт 2.4", title_ua: "Образи працівників проєкту", title_ru: "Оскорбление работников проекта", desc_ua: "Заборонено образи, цькування та погрози на адресу адміністрації й команди проєкту. Коректна критика роботи адміністрації не є порушенням.", desc_ru: "Запрещены оскорбления, травля и угрозы в адрес администрации и команды проекта. Корректная критика работы администрации не является нарушением.", punishment_ua: "Warn → Ban 1–7 днів", punishment_ru: "Warn → Ban 1–7 дней", tags: ["2.4", "адміна", "проект"] },
+
+            // SECTION 3: Зелені зони, територія банди й титули
+            { category: "cat3", code: "Пункт 3.1", title_ua: "Зелені зони", title_ru: "Зеленые зоны", desc_ua: "Зелені зони позначені на карті. Тут заборонені напади, перестрілки, пограбування, викрадення, провокації насильства та застосування відмичок. Не можна стріляти із зеленої зони або в гравця всередині неї. Законне затримання не дає права влаштовувати безпідставну стрілянину.", desc_ru: "Зеленые зоны отмечены на карте. Здесь запрещены нападения, перестрелки, ограбления, похищения, провокации насилия и применение отмычек. Нельзя стрелять из зеленой зоны или в игрока внутри нее.", punishment_ua: "Ban 1–3 дні; повторне порушення — Ban 7 днів", punishment_ru: "Ban 1–3 дня; повторное нарушение — Ban 7 дней", tags: ["3.1", "зз", "зелена зона", "green zone"] },
+            { category: "cat3", code: "Пункт 3.4", title_ua: "Маска й безпечна зона", title_ru: "Маска и безопасная зона", desc_ua: "Саме носіння маски в зеленій зоні не заборонено. Перевірка особи регулюється пунктом 19.9 розділу про затримання. Маска не є підставою для покарання чи утримання заради XP.", desc_ru: "Само ношение маски в зеленой зоне не запрещено. Проверка личности регулируется пунктом 19.9 раздела о задержании. Маска не является основанием для наказания или удержания ради XP.", punishment_ua: "Адміністративне зауваження / Заборона зловживання", punishment_ru: "Административное замечание / Запрет злоупотребления", tags: ["3.4", "маска", "зз", "xp"] },
+
+            // SECTION 4: RDM, VDM та інші порушення бойового RP
+            { category: "cat4", code: "Пункт 4.1", title_ua: "RDM (Random DeathMatch)", title_ru: "RDM (Random DeathMatch)", desc_ua: "Заборонено вбивати або намагатися вбити іншого гравця без достатньої RP-причини та відповідного розвитку ситуації. (Виняток: дозволений DM у територія банди за пунктом 3.2).", desc_ru: "Запрещено убивать или пытаться убить другого игрока без достаточной RP-причины и развития ситуации. (Исключение: разрешен DM в территория банды по пункту 3.2).", punishment_ua: "Ban 1 день → Ban 3 дні", punishment_ru: "Ban 1 день → Ban 3 дня", tags: ["4.1", "rdm", "вбивство", "без причини"] },
+            { category: "cat4", code: "Пункт 4.2", title_ua: "VDM (Vehicle DeathMatch)", title_ru: "VDM (Vehicle DeathMatch)", desc_ua: "Заборонено використовувати транспортний засіб для навмисного наїзду на гравців, завдання їм шкоди або вбивства без RP-причини.", desc_ru: "Запрещено использовать транспортное средство для намеренного наезда на игроков, нанесения им вреда или убийства без RP-причины.", punishment_ua: "Ban 1 день → Ban 3 дні", punishment_ru: "Ban 1 день → Ban 3 дня", tags: ["4.2", "vdm", "наїзд", "таран"] },
+            { category: "cat4", code: "Пункт 4.3", title_ua: "DM (DeathMatch)", title_ru: "DM (DeathMatch)", desc_ua: "Заборонено нападати на гравця без RP-причини. Умисні удари, початок бійки або застосування зброї без обґрунтованої ігрової ситуації вважаються DM. (Виняток: дозволений DM у територія банди).", desc_ru: "Запрещено нападать на игрока без RP-причины. Намеренные удары, драка или применение оружия без обоснованной ситуации считаются DM. (Исключение: разрешен DM в территория банды).", punishment_ua: "Warn або Ban 12 годин; за серйозне порушення — Ban 1 день", punishment_ru: "Warn или Ban 12 часов; за серьезное нарушение — Ban 1 день", tags: ["4.3", "dm", "бійка", "драка"] },
+            { category: "cat4", code: "Пункт 4.4", title_ua: "RK (Revenge Kill)", title_ru: "RK (Revenge Kill)", desc_ua: "Заборонено повертатися на місце власної смерті, щоб помститися гравцеві, який убив персонажа, якщо це порушує правила відновлення після смерті та поточну RP-ситуацію.", desc_ru: "Запрещено возвращаться на место собственной смерти, чтобы отомстить игроку, убившему персонажа.", punishment_ua: "Ban 1 день → Ban 3 дні", punishment_ru: "Ban 1 день → Ban 3 дня", tags: ["4.4", "rk", "помста", "месть"] },
+            { category: "cat4", code: "Пункт 4.5", title_ua: "Убивство AFK-гравця", title_ru: "Убийство AFK-игрока", desc_ua: "Заборонено навмисно вбивати гравця, який перебуває в AFK, не може брати участі в ситуації та не становить загрози.", desc_ru: "Запрещено намеренно убивать игрока, находящегося в AFK, который не может принимать участия в ситуации.", punishment_ua: "Ban 12 годин → Ban 1 день", punishment_ru: "Ban 12 часов → Ban 1 день", tags: ["4.5", "afk", "афк", "сон"] },
+
+            // SECTION 5: Правила RP-поведінки
+            { category: "cat5", code: "Пункт 5.1", title_ua: "PG (PowerGaming)", title_ru: "PG (PowerGaming)", desc_ua: "Заборонено здійснювати нереалістичні дії, ігнорувати фізичні можливості персонажа або нав’язувати іншому гравцеві результат RP-ситуації без можливості відповісти дією.", desc_ru: "Запрещено совершать нереалистичные действия, игнорировать физические возможности персонажа или навязывать результат RP-ситуации.", punishment_ua: "Warn → Ban 1 день", punishment_ru: "Warn → Ban 1 день", tags: ["5.1", "pg", "powergaming"] },
+            { category: "cat5", code: "Пункт 5.2", title_ua: "FearRP", title_ru: "FearRP", desc_ua: "Гравець зобов’язаний цінувати життя свого персонажа й зважати на реальну загрозу. Заборонено ігнорувати погрозу зброєю, чисельну перевагу супротивників та інші очевидно небезпечні обставини.", desc_ru: "Игрок обязан ценить жизнь своего персонажа и учитывать реальную угрозу. Запрещено игнорировать угрозу оружием и численное преимущество.", punishment_ua: "Ban 1 день → Ban 3 дні", punishment_ru: "Ban 1 день → Ban 3 дня", tags: ["5.2", "fearrp", "страх", "життя"] },
+            { category: "cat5", code: "Пункт 5.3", title_ua: "NRP (Non-RolePlay)", title_ru: "NRP (Non-RolePlay)", desc_ua: "Заборонено здійснювати дії, що повністю суперечать логіці та реалістичності RolePlay, а також навмисно руйнувати атмосферу ігрового процесу.", desc_ru: "Запрещено совершать действия, полностью противоречащие логике и реалистичности RolePlay, разрушая атмосферу.", punishment_ua: "Warn → Ban 1–3 дні", punishment_ru: "Warn → Ban 1–3 дня", tags: ["5.3", "nrp", "nonrp"] },
+            { category: "cat5", code: "Пункт 5.4", title_ua: "Fail RP", title_ru: "Fail RP", desc_ua: "Заборонено ігнорувати RP-ситуацію, відмовлятися від логічної взаємодії з іншими гравцями або навмисно поводитися так, щоб зірвати відігравання.", desc_ru: "Запрещено игнорировать RP-ситуацию, отказываться от логического взаимодействия или срывать отыгровку.", punishment_ua: "Warn → Ban 1 день", punishment_ru: "Warn → Ban 1 день", tags: ["5.4", "failrp", "зрив"] },
+            { category: "cat5", code: "Пункт 5.5", title_ua: "MetaGaming (MG)", title_ru: "MetaGaming (MG)", desc_ua: "Заборонено використовувати в ігровому процесі інформацію, отриману поза грою (Discord, трансляції, особисті повідомлення тощо).", desc_ru: "Запрещено использовать в игровом процессе информацию, полученную вне игры.", punishment_ua: "Ban 1 день → Ban 3 дні", punishment_ru: "Ban 1 день → Ban 3 дня", tags: ["5.5", "mg", "metagaming", "оос"] },
+            { category: "cat5", code: "Пункт 5.6", title_ua: "CopBaiting", title_ru: "CopBaiting", desc_ua: "Заборонено навмисно провокувати працівників поліції на погоню, затримання або застосування сили без об’єктивної RP-причини.", desc_ru: "Запрещено намеренно провоцировать сотрудников полиции на погоню, задержание или применение силы без RP-причины.", punishment_ua: "Ban 1 день → Ban 3 дні", punishment_ru: "Ban 1 день → Ban 3 дня", tags: ["5.6", "copbaiting", "поліція", "погоня"] },
+            { category: "cat5", code: "Пункт 5.7", title_ua: "Bug Abuse", title_ru: "Bug Abuse", desc_ua: "Заборонено навмисно використовувати помилки, недопрацювання та баги гри або сервера для отримання переваги, обходу обмежень або порушення ігрового процесу.", desc_ru: "Запрещено намеренно использовать ошибки и баги игры или сервера для получения преимущества.", punishment_ua: "Ban 1–7 днів; за серйозну експлуатацію — Permanent Ban", punishment_ru: "Ban 1–7 дней; за серьезную эксплуатацию — Permanent Ban", tags: ["5.7", "баги", "bug", "дюп"] },
+            { category: "cat5", code: "Пункт 5.8", title_ua: "Тимінг (Teaming)", title_ru: "Тиминг (Teaming)", desc_ua: "Тимінг — узгоджене об’єднання гравців із протиборчих сторін для отримання нечесної переваги. Така змова заборонена.", desc_ru: "Тиминг — согласованное объединение игроков из противоборствующих сторон для получения нечестного преимущества.", punishment_ua: "За пунктами 1.5 та 14.2 залежно від тяжкості", punishment_ru: "По пунктам 1.5 и 14.2 в зависимости от тяжести", tags: ["5.8", "тимінг", "teaming", "змова"] },
+
+            // SECTION 6: Вихід із гри та ухилення від покарань
+            { category: "cat6", code: "Пункт 6.1", title_ua: "Combat Logging", title_ru: "Combat Logging", desc_ua: "Заборонено виходити із сервера, вимикати гру або навмисно втрачати з’єднання під час активної RP-ситуації, щоб уникнути її наслідків.", desc_ru: "Запрещено выходить из сервера или выключать игру во время активной RP-ситуации.", punishment_ua: "Ban 1 день → Ban 3 дні", punishment_ru: "Ban 1 день → Ban 3 дня", tags: ["6.1", "q", "вихід", "оф від арешту"] },
+            { category: "cat6", code: "Пункт 6.2", title_ua: "Ухилення від RP", title_ru: "Уход от RP", desc_ua: "Заборонено навмисно залишати ситуацію, ховатися в недоступних місцях або використовувати ігрові механіки виключно для уникнення взаємодії з іншими гравцями.", desc_ru: "Запрещено намеренно покидать ситуацию, прятаться в недоступных местах для ухода от взаимодействия.", punishment_ua: "Warn → Ban 12 годин → Ban 1 день", punishment_ru: "Warn → Ban 12 часов → Ban 1 день", tags: ["6.2", "уход от рп", "ухилення"] },
+            { category: "cat6", code: "Пункт 6.3", title_ua: "Обхід покарання", title_ru: "Обход наказания", desc_ua: "Заборонено обходити призначений бан за допомогою додаткових акаунтів, твінків, чужих акаунтів або інших способів.", desc_ru: "Запрещено обходить назначенный бан с помощью дополнительных аккаунтов или твинков.", punishment_ua: "Ban 7–14 днів або Permanent Ban", punishment_ru: "Ban 7–14 дней или Permanent Ban", tags: ["6.3", "обхід", "твінк", "мультиакк"] },
+
+            // SECTION 7: Зовнішній вигляд та імена персонажів
+            { category: "cat7", code: "Пункт 7.1", title_ua: "Провокаційні імена та образи", title_ru: "Провокационные имена и внешность", desc_ua: "Заборонено використовувати ніки, скіни, зображення й зовнішній вигляд персонажа, що містять образи, погрози, дискримінацію або навмисно провокаційні матеріали.", desc_ru: "Запрещено использовать ники и внешность персонажа, содержащие оскорбления, угрозы или дискриминацию.", punishment_ua: "Warn з вимогою змінити нік/вигляд → Ban 1–3 дні", punishment_ru: "Warn с требованием сменить ник/внешность → Ban 1–3 дня", tags: ["7.1", "нікмейк", "нік", "скіни"] },
+            { category: "cat7", code: "Пункт 7.2", title_ua: "Імітація працівників служб", title_ru: "Имитация работников служб", desc_ua: "Заборонено використовувати форму, зовнішній вигляд і позначення державних або спеціальних служб, щоб видати себе за їхнього працівника та обманути інших гравців.", desc_ru: "Запрещено использовать форму и внешний вид спецслужб, чтобы выдать себя за их работника.", punishment_ua: "Ban 1–3 дні", punishment_ru: "Ban 1–3 дня", tags: ["7.2", "форма", "обман", "імітація"] },
+            { category: "cat7", code: "Пункт 7.3", title_ua: "Скіни тварин", title_ru: "Скины животных", desc_ua: "Скіни тварин допускаються лише за умови відповідного RP-відігравання, якщо така можливість передбачена сервером.", desc_ru: "Скины животных допускаются только при условии соответствующей RP-отыгровки.", punishment_ua: "Warn → Ban 1–5 днів", punishment_ru: "Warn → Ban 1–5 дней", tags: ["7.3", "тварин", "животные", "пес"] },
+            { category: "cat7", code: "Пункт 7.4", title_ua: "Робота в держфракції без членства", title_ru: "Работа в госфракции без членства", desc_ua: "Працювати від імені фракції дозволено лише після подання заявки, її схвалення та офіційного прийняття до складу.", desc_ru: "Работать от имени фракции разрешено только после официального принятия в состав.", punishment_ua: "Ban 1 день", punishment_ru: "Ban 1 день", tags: ["7.4", "фракція", "гос", "без заявки"] },
+
+            // SECTION 8: Голосовий чат
+            { category: "cat8", code: "Пункт 8.1", title_ua: "Сторонні звуки та музика", title_ru: "Сторонние звуки и музыка", desc_ua: "Заборонено вмикати гучні сторонні звуки, музику, записи та інші аудіоматеріали без згоди учасників ситуації.", desc_ru: "Запрещено включать громкие сторонние звуки и музыку без согласия участников ситуации.", punishment_ua: "Warn → Kick → Ban 12 годин", punishment_ru: "Warn → Kick → Ban 12 часов", tags: ["8.1", "музика", "саундпад", "шум"] },
+            { category: "cat8", code: "Пункт 8.2", title_ua: "Спам у голосовому чаті", title_ru: "Спам в голосовом чате", desc_ua: "Заборонено навмисно кричати, перебивати інших гравців, створювати постійний шум або заважати спілкуванню.", desc_ru: "Запрещено намеренно кричать, перебивать других игроков или создавать постоянный шум.", punishment_ua: "Warn → Kick → Ban 12 годин", punishment_ru: "Warn → Kick → Ban 12 часов", tags: ["8.2", "спам", "крик", "мікрофон"] },
+            { category: "cat8", code: "Пункт 8.3", title_ua: "Заборонена пропаганда", title_ru: "Запрещенная пропаганда", desc_ua: "Заборонено використовувати голосовий чат для поширення забороненої проєктом пропаганди, закликів до насильства та розпалювання ворожнечі.", desc_ru: "Запрещено использовать голосовой чат для распространения пропаганды и разжигания розни.", punishment_ua: "Ban 3–14 днів або Permanent Ban", punishment_ru: "Ban 3–14 дней или Permanent Ban", tags: ["8.3", "пропаганда", "розжиг"] },
+            { category: "cat8", code: "Пункт 8.4", title_ua: "Зміна голосу", title_ru: "Изменение голоса", desc_ua: "Заборонено використовувати сторонні програми для зміни голосу, якщо це застосовується для обману чи порушення RP.", desc_ru: "Запрещено использовать сторонние программы для изменения голоса с целью обмана.", punishment_ua: "Warn → Ban 1–5 днів", punishment_ru: "Warn → Ban 1–5 дней", tags: ["8.4", "голос", "морфер", "воіс"] },
+
+            // SECTION 9: Спам і реклама
+            { category: "cat9", code: "Пункт 9.1", title_ua: "Спам у чаті", title_ru: "Спам в чате", desc_ua: "Заборонено надсилати велику кількість однакових або беззмістовних повідомлень, засмічувати чат символами.", desc_ru: "Запрещено отправлять большое количество одинаковых сообщений и засорять чат.", punishment_ua: "Warn → Kick → Ban 12 годин", punishment_ru: "Warn → Kick → Ban 12 часов", tags: ["9.1", "спам", "флуд"] },
+            { category: "cat9", code: "Пункт 9.2", title_ua: "Реклама без дозволу", title_ru: "Реклама без разрешения", desc_ua: "Заборонено поширювати сторонню рекламу, запрошення до сторонніх спільнот і посилання без дозволу адміністрації.", desc_ru: "Запрещено распространять стороннюю рекламу и ссылки без разрешения администрации.", punishment_ua: "Ban 1–7 днів", punishment_ru: "Ban 1–7 дней", tags: ["9.2", "реклама", "посилання"] },
+            { category: "cat9", code: "Пункт 9.3", title_ua: "Масове поширення реклами", title_ru: "Массовая реклама", desc_ua: "Заборонено масово розсилати рекламні повідомлення, запрошення та посилання гравцям або в ігрові чати.", desc_ru: "Запрещено массово рассылать рекламные сообщения в чаты или ЛС.", punishment_ua: "Ban 7–14 днів або Permanent Ban", punishment_ru: "Ban 7–14 дней или Permanent Ban", tags: ["9.3", "масс реклама", "промо"] },
+
+            // SECTION 10: Чити та стороннє програмне забезпечення
+            { category: "cat10", code: "Пункт 10.1", title_ua: "Використання читів", title_ru: "Использование читов", desc_ua: "Заборонено використовувати чити, скрипти, модифікації та сторонні програми, що надають перевагу над іншими гравцями.", desc_ru: "Запрещено использовать читы, скрипты и программы, дающие преимущество.", punishment_ua: "Permanent Ban", punishment_ru: "Permanent Ban", tags: ["10.1", "чити", "читы", "soft", "софт"] },
+            { category: "cat10", code: "Пункт 10.2", title_ua: "Використання заборонених програм", title_ru: "Запрещенные программы", desc_ua: "Заборонено використовувати стороннє програмне забезпечення для обходу ігрових обмежень чи зміни ігрових параметрів.", desc_ru: "Запрещено использовать стороннее ПО для обхода игровых ограничений.", punishment_ua: "Ban 7–14 днів або Permanent Ban", punishment_ru: "Ban 7–14 дней или Permanent Ban", tags: ["10.2", "софт", "кликер"] },
+            { category: "cat10", code: "Пункт 10.3", title_ua: "Поширення читів", title_ru: "Распространение читов", desc_ua: "Заборонено поширювати, рекламувати або надавати іншим гравцям чити й заборонені програми для використання на сервері.", desc_ru: "Запрещено распространять, рекламировать или предоставлять другим игрокам читы.", punishment_ua: "Ban 7–14 днів або Permanent Ban", punishment_ru: "Ban 7–14 дней или Permanent Ban", tags: ["10.3", "продажа читов", "слив"] },
+
+            // SECTION 11: Використання ігрових механік
+            { category: "cat11", code: "Пункт 11.1", title_ua: "Bunnyhop (Bhop)", title_ru: "Bunnyhop (Bhop)", desc_ua: "Заборонено безперервно стрибати для отримання штучної переваги в пересуванні або бою.", desc_ru: "Запрещено непрерывно прыгать для получения искусственного преимущества в бою или беге.", punishment_ua: "Warn → Ban 1–2 дні", punishment_ru: "Warn → Ban 1–2 дня", tags: ["11.1", "bhop", "распрыг"] },
+            { category: "cat11", code: "Пункт 11.2", title_ua: "Зловживання ігровими механіками", title_ru: "Злоупотребление механиками", desc_ua: "Заборонено навмисно використовувати ігрові функції не за призначенням для отримання переваги, обходу RP або створення перешкод.", desc_ru: "Запрещено использовать игровые функции не по назначению для получения преимущества.", punishment_ua: "Warn → Ban 1–3 дні", punishment_ru: "Warn → Ban 1–3 дня", tags: ["11.2", "абуз", "анимации"] },
+
+            // SECTION 12: Піротехніка
+            { category: "cat12", code: "Пункт 12.1", title_ua: "Піротехніка для перешкод", title_ru: "Пиротехника для помех", desc_ua: "Заборонено застосовувати піротехніку виключно для створення хаосу, перешкод іншим гравцям або зриву RP-ситуацій.", desc_ru: "Запрещено применять пиротехнику исключительно для создания хаоса и помех.", punishment_ua: "Warn → Ban 12 годин → Ban 2 дні", punishment_ru: "Warn → Ban 12 часов → Ban 2 дня", tags: ["12.1", "салют", "петарды"] },
+            { category: "cat12", code: "Пункт 12.2", title_ua: "Піротехніка в людних місцях", title_ru: "Пиротехника в людных местах", desc_ua: "Заборонено без обґрунтованої RP-причини використовувати піротехніку в місцях великого скупчення гравців.", desc_ru: "Запрещено без RP-причины использовать пиротехнику в людных местах.", punishment_ua: "Warn → Ban 2 дні", punishment_ru: "Warn → Ban 2 дня", tags: ["12.2", "толпа", "салюты"] },
+            { category: "cat12", code: "Пункт 12.3", title_ua: "Напад із піротехнікою", title_ru: "Нападение с пиротехникой", desc_ua: "Заборонено використовувати піротехніку для навмисного нападу, завдання шкоди або провокації масового конфлікту.", desc_ru: "Запрещено использовать пиротехнику для намеренного нападения и нанесения вреда.", punishment_ua: "Ban 1–2 дні", punishment_ru: "Ban 1–2 дня", tags: ["12.3", "атака", "салют"] },
+
+            // SECTION 13: Домагання та неприйнятна поведінка
+            { category: "cat13", code: "Пункт 13.1", title_ua: "Домагання до неповнолітніх", title_ru: "Домогательства к несовершеннолетним", desc_ua: "Заборонено сексуальні домагання, непристойні пропозиції, сексуалізовані повідомлення щодо гравців віком до 18 років.", desc_ru: "Запрещены сексуальные домогательства и непристойные предложения в отношении игроков младше 18 лет.", punishment_ua: "Ban 30 днів або Permanent Ban", punishment_ru: "Ban 30 дней или Permanent Ban", tags: ["13.1", "18+", "дети", "домагання"] },
+            { category: "cat13", code: "Пункт 13.2", title_ua: "Домагання з боку фракцій", title_ru: "Домогательства со стороны фракций", desc_ua: "Учасникам державних та інших фракцій заборонено використовувати становище для примушування гравців до дій сексуального характеру.", desc_ru: "Участникам государственных фракций запрещено принуждать игроков к действиям сексуального характера.", punishment_ua: "Ban 10–30 днів або Permanent Ban + Звільнення", punishment_ru: "Ban 10–30 дней или Permanent Ban + Увольнение", tags: ["13.2", "фракция", "давление"] },
+            { category: "cat13", code: "Пункт 13.3", title_ua: "Контент 18+ без згоди", title_ru: "Контент 18+ без согласия", desc_ua: "Заборонено починати або нав’язувати відігравання сексуального характеру без попередньої згоди всіх учасників ситуації.", desc_ru: "Запрещено навязывать отыгровку сексуального характера без согласия всех участников.", punishment_ua: "Ban 1–3 дні", punishment_ru: "Ban 1–3 дня", tags: ["13.3", "18+", "секс рп"] },
+            { category: "cat13", code: "Пункт 13.4", title_ua: "Примушування до сексуального RP", title_ru: "Принуждение к сексуальному RP", desc_ua: "Заборонено примушувати гравців до сексуалізованого RP-відігравання, погрожувати їм або продовжувати такі дії після відмови.", desc_ru: "Запрещено принуждать игроков к сексуализированному RP после отказа.", punishment_ua: "Ban 3–14 днів або Permanent Ban", punishment_ru: "Ban 3–14 дней или Permanent Ban", tags: ["13.4", "принуждение", "насилие"] },
+
+            // SECTION 14: Система покарань
+            { category: "cat14", code: "Пункт 14.1", title_ua: "Система покарань", title_ru: "Система наказаний", desc_ua: "Warn (Попередження), Kick (Виключення), Ban 12 годин, Ban 1 день, Ban 3 дні, Ban 7 днів, Ban 14 днів, Permanent Ban (Постійне блокування).", desc_ru: "Warn (Предупреждение), Kick (Исключение), Ban 12 часов, Ban 1 день, Ban 3 дня, Ban 7 дней, Ban 14 дней, Permanent Ban.", punishment_ua: "Згідно з регламентом сервера", punishment_ru: "Согласно регламенту сервера", tags: ["14.1", "варн", "бан", "кик"] },
+            { category: "cat14", code: "Пункт 14.2", title_ua: "Додаткові положення", title_ru: "Дополнительные положения", desc_ua: "1. За повторне порушення строк збільшується. 2. За грубі порушення — Permanent Ban без попередження. 3. Спроба обійти бан розглядається окремо. 4. Адміністрація вимагає докази. 5. Санкція відповідає тяжкості. 6. При кількох порушеннях застосовується найсуворіше.", desc_ru: "1. За повторность срок увеличивается. 2. За грубые нарушения — Permanent Ban. 3. Обход бана карается строго. 4. Нужны доказательства. 5. Санкция соразмерна.", punishment_ua: "Застосування сукупності норм", punishment_ru: "Применение совокупности норм", tags: ["14.2", "повтор", "докази"] },
+            { category: "cat14", code: "Пункт 14.3", title_ua: "Заміна покарання штрафом", title_ru: "Замена наказания штрафом", desc_ua: "За малозначне порушення адміністратор має право замінити покарання максимальним ігровим грошовим штрафом у євро. Не застосовується до грубих порушень.", desc_ru: "За малозначительное нарушение администратор имеет право заменить наказание максимальным денежным штрафом в евро.", punishment_ua: "Грошовий штраф у євро замість бану", punishment_ru: "Денежный штраф в евро вместо бана", tags: ["14.3", "штраф", "заміна", "малозначне"] },
+
+            // SECTION 15: ПДР і транспорт (STRICT EURO CURRENCY & MODEL LISTS)
+            { category: "cat15", code: "Пункт 15.1", title_ua: "Керування незареєстрованим ТЗ", title_ru: "Управление незарегистрированным ТС", desc_ua: "Керування транспортним засобом, який за законодавством міста має бути зареєстрований, але не зареєстрований.", desc_ru: "Управление транспортным средством, которое должно быть зарегистрировано, но не зарегистрировано.", punishment_ua: "Штраф 2 000 євро (€). Евакуація допускається лише за кодексом.", punishment_ru: "Штраф 2 000 евро (€). Эвакуация допускается только по кодексу.", tags: ["15.1", "реєстрація", "2000"] },
+            { category: "cat15", code: "Пункт 15.2", title_ua: "Керування без документів / категорії", title_ru: "Управление без документов / категории", desc_ua: "Керування транспортом без передбачених законом документів або необхідної категорії посвідчення водія.", desc_ru: "Управление транспортом без предусмотренных законом документов или нужной категории прав.", punishment_ua: "Штраф 3 500 євро (€)", punishment_ru: "Штраф 3 500 евро (€)", tags: ["15.2", "права", "категорія", "3500"] },
+            { category: "cat15", code: "Пункт 15.3", title_ua: "Перевищення швидкості в місті", title_ru: "Превышение скорости в городе", desc_ua: "За ліміту 50 км/год: перевищення до 10 км/год — попередження; понад 10 до 20 — 1 500 €; понад 20 до 30 — 2 500 €; понад 30 до 40 — 3 500 €; понад 40 до 50 — 5 000 €; понад 50 до 60 — 6 000 €; понад 60 до 70 — 7 000 €; понад 70 км/год — 8 000 євро (€).", desc_ru: "При лимите 50 км/ч: до 10 км/ч — предупреждение; от 10 до 20 — 1 500 €; от 20 до 30 — 2 500 €; от 30 до 40 — 3 500 €; от 40 до 50 — 5 000 €; от 50 до 60 — 6 000 €; от 60 до 70 — 7 000 €; свыше 70 км/ч — 8 000 евро (€).", punishment_ua: "Штраф від 1 500 € до 8 000 €", punishment_ru: "Штраф от 1 500 € до 8 000 €", tags: ["15.3", "скорость", "швидкість", "місто"] },
+            { category: "cat15", code: "Пункт 15.4", title_ua: "Перевищення швидкості поза містом", title_ru: "Превышение скорости за городом", desc_ua: "За ліміту 100 км/год: перевищення до 10 км/год — попередження; понад 10 до 20 — 1 500 €; понад 20 до 30 — 2 500 €; понад 30 до 40 — 3 500 €; понад 40 до 50 — 5 000 €; понад 50 до 70 — 6 500 €; понад 70 км/год — 8 000 євро (€).", desc_ru: "При лимите 100 км/ч: до 10 км/ч — предупреждение; от 10 до 20 — 1 500 €; от 20 до 30 — 2 500 €; от 30 до 40 — 3 500 €; от 40 до 50 — 5 000 €; от 50 до 70 — 6 500 €; свыше 70 км/ч — 8 000 евро (€).", punishment_ua: "Штраф від 1 500 € до 8 000 €", punishment_ru: "Штраф от 1 500 € до 8 000 €", tags: ["15.4", "траса", "автобан", "100"] },
+            { category: "cat15", code: "Пункт 15.5", title_ua: "Тунелі, мости та житлова зона", title_ru: "Тоннели, мосты и жилая зона", desc_ua: "Частина 1: На мосту/тунелі: перевищення до 10 км/год — попередження; понад 10-20 — 2 000 €; 20-30 — 3 000 €; 30-40 — 4 000 €; 40-50 — 5 500 €; 50-70 — 7 000 €; понад 70 — 8 000 €. У житловій зоні (ліміт 20 км/год): до 10 км/год — попередження; 10-20 — 3 000 €; 20-30 — 5 000 €; понад 30 — 8 000 євро (€).", desc_ru: "Часть 1: На мосту/тоннеле: от 10-20 — 2 000 €; 20-30 — 3 000 €; 30-40 — 4 000 €; 40-50 — 5 500 €; 50-70 — 7 000 €; свыше 70 — 8 000 €. В жилой зоне (лимит 20 км/ч): до 10 — препреждение; 10-20 — 3 000 €; 20-30 — 5 000 €; свыше 30 — 8 000 евро (€).", punishment_ua: "Штраф від 2 000 € до 8 000 €", punishment_ru: "Штраф от 2 000 € до 8 000 €", tags: ["15.5", "міст", "мост", "тунель"] },
+            { category: "cat15", code: "Пункт 15.6", title_ua: "Неподання сигналу повороту", title_ru: "Неподача сигнала поворота", desc_ua: "Неподання покажчика повороту перед поворотом, перестроюванням або розворотом.", desc_ru: "Неподача указателя поворота перед поворотом, перестроением или разворотом.", punishment_ua: "Штраф 2 000 євро (€)", punishment_ru: "Штраф 2 000 евро (€)", tags: ["15.6", "поворотник", "2000"] },
+            { category: "cat15", code: "Пункт 15.7", title_ua: "Порушення правил обгону", title_ru: "Нарушение правил обгона", desc_ua: "Обгін у забороненому місці, за заборонної розмітки або знака, на небезпечній ділянці.", desc_ru: "Обгон в запрещенном месте, за сплошной разделительной или знака.", punishment_ua: "Штраф 5 000 євро (€)", punishment_ru: "Штраф 5 000 евро (€)", tags: ["15.7", "обгін", "обгон", "5000"] },
+            { category: "cat15", code: "Пункт 15.8", title_ua: "Перешкода спецтранспорту", title_ru: "Помеха спецтранспорту", desc_ua: "Умисний обгін зі створенням небезпеки, блокування або перешкоджання руху спеціального транспорту з увімкненими спецсигналами.", desc_ru: "Умышленный обгон, блокирование или помеха движению спецтранспорта с маячками.", punishment_ua: "Штраф 7 000 євро (€)", punishment_ru: "Штраф 7 000 евро (€)", tags: ["15.8", "сирена", "спецтранспорт", "7000"] },
+            { category: "cat15", code: "Пункт 15.9", title_ua: "Розворот у забороненому місці", title_ru: "Разворот в запрещенном месте", desc_ua: "Розворот на залізничному переїзді, пішохідному переході, через заборонну розмітку або в небезпечному місці.", desc_ru: "Разворот на переезде, переходе или через сплошную полосу.", punishment_ua: "Штраф 4 000 євро (€)", punishment_ru: "Штраф 4 000 евро (€)", tags: ["15.9", "розворот", "разворот", "4000"] },
+            { category: "cat15", code: "Пункт 15.10", title_ua: "Виїзд на зустрічну смугу", title_ru: "Выезд на встречную полосу", desc_ua: "Рух зустрічною смугою з порушенням знаків, розмітки або напрямку руху.", desc_ru: "Движение по встречной полосе с нарушением знаков и разметки.", punishment_ua: "Штраф 6 000 євро (€)", punishment_ru: "Штраф 6 000 евро (€)", tags: ["15.10", "зустрічка", "встречка", "6000"] },
+            { category: "cat15", code: "Пункт 15.11", title_ua: "Проїзд на заборонний сигнал", title_ru: "Проезд на запрещающий сигнал", desc_ua: "Проїзд на заборонний червоний сигнал світлофора.", desc_ru: "Проезд на запрещающий красный сигнал светофора.", punishment_ua: "Штраф 5 000 євро (€)", punishment_ru: "Штраф 5 000 евро (€)", tags: ["15.11", "червоне світло", "красный", "5000"] },
+            { category: "cat15", code: "Пункт 15.12", title_ua: "Ігнорування знаків і розмітки", title_ru: "Игнорирование знаков и разметки", desc_ua: "Невиконання вимог знаків пріоритету, заборони в'їзду, напрямку руху або дорожньої розмітки.", desc_ru: "Невыполнение требований знаков приоритета, запрета въезда или разметки.", punishment_ua: "Штраф 3 000 євро (€)", punishment_ru: "Штраф 3 000 евро (€)", tags: ["15.12", "знаки", "разметка", "3000"] },
+            { category: "cat15", code: "Пункт 15.13", title_ua: "Ненадання переваги", title_ru: "Непредоставление преимущества", desc_ua: "Ненадання переваги транспортному засобу або пішоходу у випадку, коли перевага встановлена знаками чи ПДР.", desc_ru: "Непредоставление преимущества ТС или пешеходу.", punishment_ua: "Штраф 3 000 євро (€)", punishment_ru: "Штраф 3 000 евро (€)", tags: ["15.13", "пішохід", "пешеход", "3000"] },
+            { category: "cat15", code: "Пункт 15.14", title_ua: "Рух тротуаром чи забороненою смугою", title_ru: "Движение по тротуару или спецполосе", desc_ua: "Рух тротуаром, пішохідною зоною або смугою спеціального призначення без дозволу.", desc_ru: "Движение по тротуару, пешеходной зоне или полосе спецназначения.", punishment_ua: "Штраф 3 000 євро (€)", punishment_ru: "Штраф 3 000 евро (€)", tags: ["15.14", "тротуар", "3000"] },
+            { category: "cat15", code: "Пункт 15.15", title_ua: "Зупинка в забороненому місці", title_ru: "Остановка в запрещенном месте", desc_ua: "Зупинка на переїзді, переході, перехресті, у тунелі, на мосту або швидкісній трасі з створенням перешкод.", desc_ru: "Остановка на переезде, переходе, перекрестке, в тоннеле или на мосту.", punishment_ua: "Штраф 3 000 євро (€)", punishment_ru: "Штраф 3 000 евро (€)", tags: ["15.15", "зупинка", "остановка", "3000"] },
+            { category: "cat15", code: "Пункт 15.16", title_ua: "Неправильне паркування (Ч. 1, Ч. 2)", title_ru: "Неправильная парковка (Ч. 1, Ч. 2)", desc_ua: "Частина 1: Паркування на тротуарі, переході, зупинці, у тунелі, мосту зі створенням перешкод (Штраф 3 500 €; евакуація). Частина 2: Паркування не-електромобіля (крім Kat E) на місці для заряджання електротранспорту (Штраф 4 000 €; евакуація).", desc_ru: "Часть 1: Парковка на тротуаре, переходе, остановке (Штраф 3 500 €; эвакуация). Часть 2: Парковка авто не-категории E на месте зарядки электромобилей (Штраф 4 000 €; эвакуация).", punishment_ua: "Штраф 3 500 € – 4 000 € + Евакуація ТЗ", punishment_ru: "Штраф 3 500 € – 4 000 € + Эвакуация ТС", tags: ["15.16", "парковка", "электро", "евакуатор"] },
+            { category: "cat15", code: "Пункт 15.17", title_ua: "ДТП з необережності", title_ru: "ДТП по неосторожности", desc_ua: "Зіткнення внаслідок неуважності, небезпечного маневру або недотримання безпечної дистанції.", desc_ru: "Столкновение из-за невнимательности, опасного маневра или дистанции.", punishment_ua: "Штраф 2 000 євро (€)", punishment_ru: "Штраф 2 000 евро (€)", tags: ["15.17", "дтп", "аварія", "2000"] },
+            { category: "cat15", code: "Пункт 15.18", title_ua: "Умисне зіткнення / Таран", title_ru: "Умышленное столкновение / Таран", desc_ua: "Навмисний таран, зіткнення або використання транспорту для пошкодження іншого ТЗ.", desc_ru: "Намеренный таран или использование транспорта для повреждения чужого ТС.", punishment_ua: "Штраф 5 000 євро (€) + кримінальні матеріали", punishment_ru: "Штраф 5 000 евро (€) + уголовные материалы", tags: ["15.18", "таран", "5000"] },
+            { category: "cat15", code: "Пункт 15.19", title_ua: "Залишення місця ДТП (Ч. 1, Ч. 2)", title_ru: "Оставление места ДТП (Ч. 1, Ч. 2)", desc_ua: "Частина 1: Умисне залишення місця ДТП без постраждалих: штраф 4 000 євро (€). Частина 2: За наявності постраждалих: штраф 8 000 євро (€), якщо діяння не утворює злочину.", desc_ru: "Часть 1: Оставление места ДТП без пострадавших: штраф 4 000 евро (€). Часть 2: При наличии пострадавших: штраф 8 000 евро (€).", punishment_ua: "Штраф 4 000 € (Ч.1) або 8 000 € (Ч.2)", punishment_ru: "Штраф 4 000 € (Ч.1) или 8 000 € (Ч.2)", tags: ["15.19", "побег", "скрылся", "8000"] },
+            { category: "cat15", code: "Пункт 15.20", title_ua: "Експлуатація пошкодженого ТЗ", title_ru: "Эксплуатация поврежденного ТС", desc_ua: "Продовження руху на транспортному засобі, який через пошкодження не може безпечно рухатися.", desc_ru: "Продолжение движения на ТС, которое из-за повреждений не может безопасно двигаться.", punishment_ua: "Штраф 2 000 євро (€)", punishment_ru: "Штраф 2 000 евро (€)", tags: ["15.20", "сломан", "2000"] },
+            { category: "cat15", code: "Пункт 15.21", title_ua: "Небезпечне маневрування", title_ru: "Опасное маневрирование", desc_ua: "Різкі перестроювання, навмисне підрізання, блокування руху або інші аварійні дії.", desc_ru: "Резкие перестроения, намеренное подрезание и создание аварийной ситуации.", punishment_ua: "Штраф 4 000 євро (€)", punishment_ru: "Штраф 4 000 евро (€)", tags: ["15.21", "подрез", "4000"] },
+            { category: "cat15", code: "Пункт 15.22", title_ua: "Категорії ТЗ та списки моделей", title_ru: "Категории ТС и списки моделей", desc_ua: "Категорія A (Suhl S25, Quad, UTV, Electric Scooter, BKM 1200 Tourer, Vellfire XY6, Vellfire R1). Категорія B (Wolfsburg Maximus, Stuttgart Schwerkraft, Stuttgart Omnibus, Stuttgart Lastkraft, Stuttgart Colossus, Stuttgart Coach, Stellar S100 Electric, Nordvik H7, MEN TX Hauler, MEN TMG, BR Titan, Brazil Paradise G7, Armored Truck). Категорія D (Falcon Scout, BKM M5, Silhouette Carbon, Wolfsburg Marin, Wolfsburg Classic, BKM 1 Cabriolet, Wolfsburg Handel, Avantismo S5, Wolfsburg Karen, Stuttgart W123, Stuttgart Kasten, Stuttgart Executive, Avantismo A3, Stuttgart Jogger, Wolfsburg T6, BKM M3 E90, Stuttgart GMA 63, Falcon Traveller, Wolfsburg Pickup, Cuvora Atrica, Avantismo A6, BKM 3 Series, Falcon Grinder, Avantismo Q5, Stuttgart GMA C63 Facelift, BKM M2, Stuttgart Landschaft, Avantismo R8, Stuttgart GMA Roadster, BKM X3, Stuttgart GMA Sport, BKW M3 G80, Ferdinand 911, Ferdinand 911 Cabriolet, Stuttgart GMA Commute, Bullhorn Prancer SFP Fury, Avantismo RS4, Ferdinand Jalapeno, Silhouette Urano, Maranello Catania, Chryslus Champion Limousine, Stuttgart Royal Majestic, Mauntley National GT, Strugatti Ettore, Nyberg Eskon). Категорія E (Wolfsburg Discovery, Avantismo Q4 Electron, Celestial Type S, Ferdinand Vivo). Категорія G (Go Kart, Tractor, Nordforge Striker 450 - заборонено рух дорогами загального користування).", desc_ru: "Полный перечень моделей категорий A, B, D, E (электро), G (сельхоз/карты - движение по дорогам запрещено).", punishment_ua: "Відповідно до відсутності права керування", punishment_ru: "Соответственно отсутствию прав управления", tags: ["15.22", "модели", "категории", "ferdinand", "bkm", "avantismo"] },
+            { category: "cat15", code: "Пункт 15.23", title_ua: "Пред’явлення документів", title_ru: "Предъявление документов", desc_ua: "Водій і працівник держорганізації зобов’язані на першу законну вимогу пред’явити паспорт, посвідчення водія та техпаспорт. Відмова: штраф 3 000 € за ст. 17.6.", desc_ru: "Водитель обязан по первому требованию предъявить паспорт, права и техпаспорт. Отказ: штраф 3 000 €.", punishment_ua: "Штраф 3 000 євро (€) за п. 17.6 Адмінкодексу", punishment_ru: "Штраф 3 000 евро (€) по п. 17.6 Админкодекса", tags: ["15.23", "документы", "паспорт", "3000"] },
+            { category: "cat15", code: "Пункт 15.24", title_ua: "Підстави зупинки транспорту", title_ru: "Основания остановки транспорта", desc_ua: "НПУ має право зупинити ТЗ за порушення ПДР, несправності, орієнтування, розшук, ДТП або КПП. Зупинка заради розваги/XP заборонена. СБУ зупиняє лише за кримінальними справами.", desc_ru: "НПУ останавливает ТС за ПДД, ориентеровку, разыск или КПП. Остановка ради XP запрещена.", punishment_ua: "Дисциплінарне покарання / Скасування дій", punishment_ru: "Дисциплинарное наказание / Отмена действий", tags: ["15.24", "зупинка", "остановка", "нпу", "сбу"] },
+
+            // SECTION 16: Конституція
+            { category: "cat16", code: "Пункт 16.1", title_ua: "Єдиний звід правил", title_ru: "Единый свод правил", desc_ua: "Усі опубліковані розділи входять до єдиного зводу правил міста. Неопубліковані вимоги й вигадані склади не застосовуються.", desc_ru: "Все опубликованные разделы входят в единый свод правил города.", punishment_ua: "Дотримання верховенства кодексу", punishment_ru: "Соблюдение верховенства кодекса", tags: ["16.1", "конституція", "закон"] },
+            { category: "cat16", code: "Пункт 16.2", title_ua: "Вибори партій", title_ru: "Выборы партий", desc_ua: "Вибори партій проводяться кожні 30 календарних днів шляхом таємного голосування.", desc_ru: "Выборы партий проводятся каждые 30 дней тайным голосованием.", punishment_ua: "Звільнення губернатора при порушенні", punishment_ru: "Увольнение губернатора при нарушении", tags: ["16.2", "вибори", "губернатор"] },
+            { category: "cat16", code: "Пункт 16.3", title_ua: "Докази й оскарження", title_ru: "Доказательства и обжалование", desc_ua: "Покарання супроводжується зазначенням конкретного пункту й доказів. Гравець має право оскаржити рішення через адміністрацію.", desc_ru: "Наказание сопровождается указанием конкретного пункта и доказательств.", punishment_ua: "Право на подачу апеляції", punishment_ru: "Право на подачу апелляции", tags: ["16.3", "докази", "жалоба", "суд"] },
+
+            // SECTION 17: Адміністративний кодекс (CURRENCY IN EURO)
+            { category: "cat17", code: "Пункт 17.1", title_ua: "Порядок призначення штрафу", title_ru: "Порядок назначения штрафа", desc_ua: "Розділ регулює порушення громадського порядку. Оформлює НПУ за наявності доказів. Особистий переказ грошей працівнику заборонений.", desc_ru: "Раздел регулирует нарушения общественного порядка. Оформляет НПУ с доказательствами.", punishment_ua: "Оформлення протоколу НПУ", punishment_ru: "Оформление протокола НПУ", tags: ["17.1", "штраф", "протокол"] },
+            { category: "cat17", code: "Пункт 17.2", title_ua: "Дрібне хуліганство", title_ru: "Мелкое хулиганство", desc_ua: "Лайка в громадському місці, образливе чіпляння до громадян і навмисне порушення спокою без насильства.", desc_ru: "Брань в общественном месте, приставания и нарушение покоя без насилия.", punishment_ua: "Штраф 2 000 – 4 000 євро (€)", punishment_ru: "Штраф 2 000 – 4 000 евро (€)", tags: ["17.2", "мат", "лайка", "хулиганство"] },
+            { category: "cat17", code: "Пункт 17.3", title_ua: "Розпивання енергетиків", title_ru: "Распитие энергетиков", desc_ua: "Заборонено розпивати енергетичні напої в громадських місцях: на вулицях, площах, у парках та установах.", desc_ru: "Запрещено распивать энергетические напитки в общественных местах.", punishment_ua: "Штраф 1 000 євро (€)", punishment_ru: "Штраф 1 000 евро (€)", tags: ["17.3", "энергетик", "1000"] },
+            { category: "cat17", code: "Пункт 17.4", title_ua: "Демонстрація непристойностей", title_ru: "Демонстрация непристойностей", desc_ua: "Навмисна демонстрація непристойних жестів, оголення чи дій сексуального характеру в громадському місці.", desc_ru: "Намеренная демонстрация непристойных жестов или обнажения в общественном месте.", punishment_ua: "Штраф 3 000 євро (€)", punishment_ru: "Штраф 3 000 евро (€)", tags: ["17.4", "жесты", "3000"] },
+            { category: "cat17", code: "Пункт 17.5", title_ua: "Неправдивий виклик служб", title_ru: "Ложный вызов служб", desc_ua: "Завідомо неправдиве повідомлення про аварію, пожежу, злочин або надзвичайну ситуацію.", desc_ru: "Заведомо ложный вызов экстренных служб.", punishment_ua: "Штраф 5 000 євро (€)", punishment_ru: "Штраф 5 000 евро (€)", tags: ["17.5", "вызов", "ложный", "5000"] },
+            { category: "cat17", code: "Пункт 17.6", title_ua: "Невиконання законної вимоги", title_ru: "Невыполнение законного требования", desc_ua: "Умисна відмова надати документи уповноваженому працівнику після роз’яснення вимоги.", desc_ru: "Умышленный отказ предоставить документы сотруднику после разъяснения.", punishment_ua: "Штраф 3 000 євро (€)", punishment_ru: "Штраф 3 000 евро (€)", tags: ["17.6", "отказ", "требование", "3000"] },
+            { category: "cat17", code: "Пункт 17.7", title_ua: "Перешкоджання та неправдиві дані", title_ru: "Помеха и ложные данные", desc_ua: "Умисне створення перешкод законній роботі НПУ або повідомлення завідомо неправдивих даних про особу.", desc_ru: "Создание помех работе НПУ или предоставление ложных данных о себе.", punishment_ua: "Штраф 4 000 євро (€)", punishment_ru: "Штраф 4 000 евро (€)", tags: ["17.7", "помеха", "4000"] },
+            { category: "cat17", code: "Пункт 17.8", title_ua: "Етика працівника", title_ru: "Этика сотрудника", desc_ua: "Працівник звертається на «Ви», не ображає й не вживає нецензурної лексики під час виконання обов’язків.", desc_ru: "Сотрудник обращается на «Вы», не использует мат и не унижает задержанных.", punishment_ua: "Штраф 1 000 – 8 000 євро (€)", punishment_ru: "Штраф 1 000 – 8 000 евро (€)", tags: ["17.8", "этика", "полиция"] },
+            { category: "cat17", code: "Пункт 17.9", title_ua: "Наклеп", title_ru: "Клевета", desc_ua: "Умисне поширення неправдивих відомостей про громадянина чи працівника, що ганьблять його честь і гідність.", desc_ru: "Умышленное распространение ложных сведений, порочащих честь и достоинство.", punishment_ua: "Штраф від 1 000 до 8 000 євро (€)", punishment_ru: "Штраф от 1 000 до 8 000 евро (€)", tags: ["17.9", "клевета", "наклеп"] },
+
+            // SECTION 18: Кримінальний кодекс (CURRENCY IN EURO)
+            { category: "cat18", code: "Пункт 18.1", title_ua: "Підстава кримінальної відповідальності", title_ru: "Основание уголовной ответственности", desc_ua: "Злочином визнається винне діяння, прямо заборонене цим розділом.", desc_ru: "Преступлением признается виновное деяние, прямо запрещенное разделом.", punishment_ua: "Встановиться судом", punishment_ru: "Устанавливается судом", tags: ["18.1", "преступление"] },
+            { category: "cat18", code: "Пункт 18.2", title_ua: "Строки та санкції", title_ru: "Сроки и санкции", desc_ua: "Усі строки позбавлення волі зазначені у хвилинах, штрафи — у євро (€). Максимальний строк за справою — 30 хвилин.", desc_ru: "Все сроки в минутах, штрафы — в евро (€). Максимальный срок — 30 минут.", punishment_ua: "Позбавлення волі до 30 хв", punishment_ru: "Лишение свободы до 30 мин", tags: ["18.2", "сроки", "евро"] },
+            { category: "cat18", code: "Пункт 18.3", title_ua: "Чотири елементи складу злочину", title_ru: "Четыре элемента состава преступления", desc_ua: "Об'єкт, об'єктивна сторона, суб'єкт, суб'єктивна сторона. Відсутність хоча б одного виключає склад.", desc_ru: "Объект, объективная сторона, субъект, субъективная сторона.", punishment_ua: "Звільнення особи за відсутності елемента", punishment_ru: "Освобождение при отсутствии элемента", tags: ["18.3", "состав", "элементы"] },
+            { category: "cat18", code: "Пункт 18.4", title_ua: "Обставини, що виключають злочин", title_ru: "Обстоятельства, исключающие преступление", desc_ua: "Співмірна необхідна оборона, крайня необхідність та виконання законного наказу.", desc_ru: "Соразмерная необходимая оборона, крайняя необходимость.", punishment_ua: "Освобождение от ответственности", punishment_ru: "Освобождение от ответственности", tags: ["18.4", "оборона"] },
+            { category: "cat18", code: "Пункт 18.5", title_ua: "Замах і співучасть", title_ru: "Покушение и соучастие", desc_ua: "Умисна дія, спрямована на злочин, що не доведена до кінця з незалежних причин.", desc_ru: "Умышленное действие, направленное на преступление, не доведенное до конца.", punishment_ua: "За санкцією відповідної статті", punishment_ru: "По санкции соответствующей статьи", tags: ["18.5", "покушение"] },
+            { category: "cat18", code: "Пункт 18.6", title_ua: "Обтяжуючі обставини", title_ru: "Отягчающие обстоятельства", desc_ua: "Повторність, змова, особлива жорстокість, використання посади.", desc_ru: "Повторность, сговор, особая жестокость, использование должности.", punishment_ua: "Збільшення строку покарання", punishment_ru: "Увеличение срока наказания", tags: ["18.6", "сговор", "повтор"] },
+            { category: "cat18", code: "Пункт 18.7", title_ua: "Пом'якшуючі обставини", title_ru: "Смягчающие обстоятельства", desc_ua: "Перше порушення, зізнання, допомога потерпілому, відшкодування шкоди.", desc_ru: "Первое нарушение, признание, помощь потерпевшему.", punishment_ua: "Зменшення строку покарання", punishment_ru: "Уменьшение срока наказания", tags: ["18.7", "явка", "помощь"] },
+            { category: "cat18", code: "Пункт 18.8", title_ua: "Недоторканність", title_ru: "Неприкосновенность", desc_ua: "Недоторканність мають Губернатор, Мер, Заступник мера, Сенат, Прокурори, ДБР та Судді.", desc_ru: "Неприкосновенность имеют Губернатор, Мэр, Зам. мэра, Сенат, Прокуроры, ДБР и Судьи.", punishment_ua: "Затримання лише після зняття недоторканності", punishment_ru: "Задержание только после снятия неприкосновенности", tags: ["18.8", "статус", "мэр"] },
+            { category: "cat18", code: "Пункт 18.9", title_ua: "Автоматичне зняття та ордер", title_ru: "Автоматическое снятие и ордер", desc_ua: "Недоторканність негайно знімається за тяжку шкоду, вбивство чи тероризм (ст. 18.35, 18.38, 18.27, 18.37).", desc_ru: "Снятие неприкосновенности при тяжком вреде, убийстве или терроризме.", punishment_ua: "Негайне затримання за ордером чи автоматично", punishment_ru: "Немедленное задержание по ордеру", tags: ["18.9", "ордер", "тяжкое"] },
+            { category: "cat18", code: "Пункт 18.10", title_ua: "Привласнення повноважень", title_ru: "Присвоение полномочий", desc_ua: "Представлення себе уповноваженою посадовою особою або привласнення чужих повноважень.", desc_ru: "Представление себя должностным лицом или присвоение полномочий.", punishment_ua: "До 30 хвилин позбавлення волі", punishment_ru: "До 30 минут лишения свободы", tags: ["18.10", "самозванец"] },
+            { category: "cat18", code: "Пункт 18.11", title_ua: "Перевищення повноважень", title_ru: "Превышение полномочий", desc_ua: "Завідоме вчинення посадовою особою дій поза межами її прав з істотним порушенням прав.", desc_ru: "Совершение должностным лицом действий за пределами прав.", punishment_ua: "До 30 хв позбавлення волі / Звільнення", punishment_ru: "До 30 мин лишения свободы / Увольнение", tags: ["18.11", "превышение", "гос"] },
+            { category: "cat18", code: "Пункт 18.12", title_ua: "Зловживання повноваженнями", title_ru: "Злоупотребление полномочиями", desc_ua: "Умисне використання повноважень усупереч інтересам служби (зокрема утримання після наказу прокурора).", desc_ru: "Использование полномочий вопреки интересам службы.", punishment_ua: "До 30 хв позбавлення волі / Звільнення", punishment_ru: "До 30 мин лишения свободы / Увольнение", tags: ["18.12", "абуз", "удержание"] },
+            { category: "cat18", code: "Пункт 18.13", title_ua: "Недбалість", title_ru: "Халатность", desc_ua: "Необережне невиконання службового обов'язку, що спричинило тяжку шкоду.", desc_ru: "Неосторожное неисполнение служебных обязанностей.", punishment_ua: "Штраф 1 000–8 000 € або до 30 хв волі", punishment_ru: "Штраф 1 000–8 000 € или до 30 мин свободы", tags: ["18.13", "халатность", "8000"] },
+            { category: "cat18", code: "Пункт 18.14", title_ua: "Одержання хабаря", title_ru: "Получение взятки", desc_ua: "Одержання незаконної винагороди за службову дію, бездіяльність або заступництво.", desc_ru: "Получение незаконного вознаграждения за действие или бездействие.", punishment_ua: "До 12 хвилин позбавлення волі", punishment_ru: "До 12 минут лишения свободы", tags: ["18.14", "взятка", "хабар"] },
+            { category: "cat18", code: "Пункт 18.15", title_ua: "Надання хабаря", title_ru: "Дача взятки", desc_ua: "Передача або пропозиція незаконної винагороди посадовій особі.", desc_ru: "Передача или предложение незаконного вознаграждения должностному лицу.", punishment_ua: "До 12 хвилин позбавлення волі", punishment_ru: "До 12 минут лишения свободы", tags: ["18.15", "дача взятки"] },
+            { category: "cat18", code: "Пункт 18.16", title_ua: "Самоправство", title_ru: "Самоуправство", desc_ua: "Самовільне здійснення дій всупереч установленій процедурі з істотною шкодою.", desc_ru: "Самовольное совершение действий вопреки процедуре.", punishment_ua: "До 12 хвилин позбавлення волі", punishment_ru: "До 12 минут лишения свободы", tags: ["18.16", "самоправство"] },
+            { category: "cat18", code: "Пункт 18.17", title_ua: "Невиконання акта суду/прокурора", title_ru: "Неисполнение акта суда/прокурора", desc_ua: "Умисне невиконання рішення суду або письмової постанови прокуратури.", desc_ru: "Умышленное неисполнение решения суда или постановления прокуратуры.", punishment_ua: "До 12 хвилин позбавлення волі", punishment_ru: "До 12 минут лишения свободы", tags: ["18.17", "суд", "наказ"] },
+            { category: "cat18", code: "Пункт 18.18", title_ua: "Образа представника влади", title_ru: "Оскорбление представителя власти", desc_ua: "Умисне приниження гідності працівника під час виконання у непристойній формі.", desc_ru: "Умышленное унижение достоинства сотрудника при исполнении.", punishment_ua: "Штраф 1 000 € або до 12 хв волі", punishment_ru: "Штраф 1 000 € или до 12 мин свободы", tags: ["18.18", "полиция", "мат", "1000"] },
+            { category: "cat18", code: "Пункт 18.19", title_ua: "Ухилення від сплати штрафу", title_ru: "Уклонение от уплаты штрафа", desc_ua: "Умисне ухилення від виконання судової вимоги про сплату штрафу.", desc_ru: "Умышленное уклонение от уплаты судебного штрафа.", punishment_ua: "До 12 хвилин позбавлення волі", punishment_ru: "До 12 минут лишения свободы", tags: ["18.19", "неуплата"] },
+            { category: "cat18", code: "Пункт 18.20", title_ua: "Неповага до суду", title_ru: "Неуважение к суду", desc_ua: "Умисний зрив засідання, образа учасників або перешкоджання після попередження судді.", desc_ru: "Умышленный срыв заседания или оскорбление в суде.", punishment_ua: "Штраф 8 000 € або до 4 хв волі", punishment_ru: "Штраф 8 000 € или до 4 мин свободы", tags: ["18.20", "суд", "8000"] },
+            { category: "cat18", code: "Пункт 18.21", title_ua: "Відповідальність співучасника", title_ru: "Ответственность соучастника", desc_ua: "Організатор, підбурювач та пособник відповідають за сприяння злочину.", desc_ru: "Организатор, подстрекатель и пособник отвечают за содействие.", punishment_ua: "За відповідною статтею злочину", punishment_ru: "По соответствующей статье преступления", tags: ["18.21", "соучастие"] },
+            { category: "cat18", code: "Пункт 18.22", title_ua: "Ухилення від відбування покарання", title_ru: "Уклонение от отбывания наказания", desc_ua: "Втеча з місця виконання вироку або невиконання обов'язку прибути для відбування.", desc_ru: "Побег с места отбывания наказания или неявка.", punishment_ua: "До 12 хвилин позбавлення волі", punishment_ru: "До 12 минут лишения свободы", tags: ["18.22", "побег", "тюрьма"] },
+            { category: "cat18", code: "Пункт 18.23", title_ua: "Фальсифікація доказів", title_ru: "Фальсификация доказательств", desc_ua: "Умисне підроблення, монтаж, знищення або приховування доказів.", desc_ru: "Умышленный подлог, монтаж или уничтожение доказательств.", punishment_ua: "До 30 хвилин позбавлення волі", punishment_ru: "До 30 минут лишения свободы", tags: ["18.23", "фабрикация", "монтаж"] },
+            { category: "cat18", code: "Пункт 18.24", title_ua: "Завідомо неправдиві показання", title_ru: "Заведомо ложные показания", desc_ua: "Умисне повідомлення свідком чи потерпілим неправдивих відомостей під час допиту.", desc_ru: "Заведомо ложные показания свидетеля или потерпевшего на допросе.", punishment_ua: "До 12 хвилин позбавлення волі", punishment_ru: "До 12 минут лишения свободы", tags: ["18.24", "допрос", "ложь"] },
+            { category: "cat18", code: "Пункт 18.25", title_ua: "Завідомо неправдивий донос", title_ru: "Заведомо ложный донос", desc_ua: "Умисне повідомлення про неіснуючий злочин або звинувачення невинуватого.", desc_ru: "Заведомо ложный донос о несуществующем преступлении.", punishment_ua: "До 12 хвилин позбавлення волі", punishment_ru: "До 12 минут лишения свободы", tags: ["18.25", "донос"] },
+            { category: "cat18", code: "Пункт 18.26", title_ua: "Порушення умов ліцензії на зброю", title_ru: "Нарушение условий лицензии на оружие", desc_ua: "Незаконна передача, збут або носіння зброї поза дозволеною категорією.", desc_ru: "Незаконная передача или ношение оружия вне разрешенной категории.", punishment_ua: "До 12 хвилин позбавлення волі", punishment_ru: "До 12 минут лишения свободы", tags: ["18.26", "лицензия", "оружие"] },
+            { category: "cat18", code: "Пункт 18.27", title_ua: "Тероризм", title_ru: "Терроризм", desc_ua: "Вибух, підпал або загроза з метою залякування населення чи примушування влади.", desc_ru: "Взрыв, поджог или угроза с целью залякивания населения.", punishment_ua: "30 хвилин позбавлення волі (Максимум)", punishment_ru: "30 минут лишения свободы (Максимум)", tags: ["18.27", "взрыв", "теракт"] },
+            { category: "cat18", code: "Пункт 18.28", title_ua: "Зброя без законної підстави", title_ru: "Оружие без законных оснований", desc_ua: "Придбання, зберігання, перевезення чи носіння зброї без чинної ліцензії.", desc_ru: "Ношение или хранение оружия без действующей лицензии.", punishment_ua: "До 30 хвилин позбавлення волі", punishment_ru: "До 30 минут лишения свободы", tags: ["18.28", "нелегал", "ствол"] },
+            { category: "cat18", code: "Пункт 18.29", title_ua: "Захоплення заручника", title_ru: "Захват заложника", desc_ua: "Утримання людини з вимогою до третіх осіб як умовою звільнення.", desc_ru: "Захват человека с выдвижением требований.", punishment_ua: "30 хвилин позбавлення волі", punishment_ru: "30 минут лишения свободы", tags: ["18.29", "заложник"] },
+            { category: "cat18", code: "Пункт 18.30", title_ua: "Незаконний обіг наркотиків", title_ru: "Незаконный оборот наркотиков", desc_ua: "Придбання, зберігання, виготовлення, перевезення або збут наркотичних речовин.", desc_ru: "Хранение, перевозка или сбыт наркотических веществ.", punishment_ua: "30 хвилин позбавлення волі", punishment_ru: "30 минут лишения свободы", tags: ["18.30", "наркотики", "травка"] },
+            { category: "cat18", code: "Пункт 18.31", title_ua: "Хуліганство (Кримінальне)", title_ru: "Хулиганство (Уголовное)", desc_ua: "Грубе порушення громадського порядку з насильством або загрозою насильства.", desc_ru: "Грубое нарушение порядка с применением насилия.", punishment_ua: "До 12 хвилин позбавлення волі", punishment_ru: "До 12 минут лишения свободы", tags: ["18.31", "драка", "насилие"] },
+            { category: "cat18", code: "Пункт 18.32", title_ua: "Керування після позбавлення прав", title_ru: "Управление после лишения прав", desc_ua: "Керування транспортом за чинного судового позбавлення водійських прав.", desc_ru: "Вождение ТС при действующем судебном лишении прав.", punishment_ua: "До 12 хвилин позбавлення волі", punishment_ru: "До 12 минут лишения свободы", tags: ["18.32", "лишение", "руль"] },
+            { category: "cat18", code: "Пункт 18.33", title_ua: "Легка шкода здоров'ю", title_ru: "Легкий вред здоровью", desc_ua: "Умисне заподіяння болю або легких тілесних ушкоджень поза необхідною обороною.", desc_ru: "Нанесение легких телесных повреждений вне необходимой обороны.", punishment_ua: "До 12 хв волі або штраф 8 000 €", punishment_ru: "До 12 мин свободы или штраф 8 000 €", tags: ["18.33", "побои", "8000"] },
+            { category: "cat18", code: "Пункт 18.34", title_ua: "Шкода середньої тяжкості", title_ru: "Вред средней тяжести", desc_ua: "Умисна шкода, що спричинила істотний розлад здоров'я.", desc_ru: "Нанесение вреда средней тяжести здоровью.", punishment_ua: "До 20 хвилин позбавлення волі", punishment_ru: "До 20 минут лишения свободы", tags: ["18.34", "травма"] },
+            { category: "cat18", code: "Пункт 18.35", title_ua: "Тяжка шкода здоров'ю", title_ru: "Тяжкий вред здоровью", desc_ua: "Умисна небезпечна для життя шкода або втрата органа чи його функції.", desc_ru: "Умышленный опасный для жизни вред здоровью.", punishment_ua: "До 30 хвилин позбавлення волі", punishment_ru: "До 30 минут лишения свободы", tags: ["18.35", "тяжкие"] },
+            { category: "cat18", code: "Пункт 18.36", title_ua: "Погроза вбивством", title_ru: "Угроза убийством", desc_ua: "Реальна погроза вбивством або тяжкою шкодою з об'єктивними підставами.", desc_ru: "Реальная угроза убийством с наличием оснований опасаться.", punishment_ua: "До 18 хвилин позбавлення волі", punishment_ru: "До 18 минут лишения свободы", tags: ["18.36", "угроза"] },
+            { category: "cat18", code: "Пункт 18.37", title_ua: "Напад на працівника силових структур", title_ru: "Нападение на сотрудника силовых структур", desc_ua: "Умисний насильницький напад або вбивство працівника НПУ, СБУ, ДБР під час виконання.", desc_ru: "Нападение или посягательство на жизнь сотрудника НПУ, СБУ, ДБР.", punishment_ua: "30 хвилин позбавлення волі", punishment_ru: "30 минут лишения свободы", tags: ["18.37", "коп", "полиция", "убийство"] },
+            { category: "cat18", code: "Пункт 18.38", title_ua: "Убивство", title_ru: "Убийство", desc_ua: "Умисне протиправне заподіяння смерті іншій людині.", desc_ru: "Умышленное причинение смерти другому человеку.", punishment_ua: "30 хвилин позбавлення волі", punishment_ru: "30 минут лишения свободы", tags: ["18.38", "труп", "убивство"] },
+            { category: "cat18", code: "Пункт 18.39", title_ua: "Викрадення людини", title_ru: "Похищение человека", desc_ua: "Незаконне захоплення та переміщення людини проти її волі.", desc_ru: "Незаконный захват и перемещение человека против воли.", punishment_ua: "До 30 хвилин позбавлення волі", punishment_ru: "До 30 минут лишения свободы", tags: ["18.39", "похищение"] },
+            { category: "cat18", code: "Пункт 18.40", title_ua: "Розбій", title_ru: "Разбой", desc_ua: "Напад з метою викрадення майна з небезпечним для життя або здоров'я насильством.", desc_ru: "Нападение с целью хищения имущества с угрозой жизни.", punishment_ua: "До 30 хвилин позбавлення волі", punishment_ru: "До 30 минут лишения свободы", tags: ["18.40", "разбой", "ограбление"] },
+            { category: "cat18", code: "Пункт 18.41", title_ua: "Грабіж", title_ru: "Грабеж", desc_ua: "Відкрите умисне викрадення чужого майна без ознак розбою.", desc_ru: "Открытое хищение чужого имущества.", punishment_ua: "24 – 30 хвилин позбавлення волі", punishment_ru: "24 – 30 минут лишения свободы", tags: ["18.41", "грабеж"] },
+            { category: "cat18", code: "Пункт 18.42", title_ua: "Крадіжка", title_ru: "Кража", desc_ua: "Таємне умисне викрадення чужого майна.", desc_ru: "Тайное хищение чужого имущества.", punishment_ua: "До 24 хвилин позбавлення волі", punishment_ru: "До 24 минут лишения свободы", tags: ["18.42", "вор", "кража"] },
+            { category: "cat18", code: "Пункт 18.43", title_ua: "Незаконне проникнення та ЗОД", title_ru: "Незаконное проникновение и ЗОД", desc_ua: "Умисне проникнення без дозволу до житла, закритого приміщення або Зони Обмеженого Доступу.", desc_ru: "Проникновение без разрешения в жилье или Зону Ограниченного Доступа.", punishment_ua: "До 12 хв волі (цивільні) / до 24 хв (держслужбовці)", punishment_ru: "До 12 мин свободы (гражданские) / до 24 мин (госслужащие)", tags: ["18.43", "зод", "проникновение"] },
+            { category: "cat18", code: "Пункт 18.44", title_ua: "Закриті охоронювані території", title_ru: "Закрытые охраняемые территории", desc_ua: "Бази СБУ, ДБР, НПУ та Суду є закритими об'єктами. Прокурор має безперешкодний доступ.", desc_ru: "Базы СБУ, ДБР, НПУ и Суда закрыты. Прокурор имеет свободный доступ.", punishment_ua: "Застосування ст. 18.43", punishment_ru: "Применение ст. 18.43", tags: ["18.44", "база", "сбу"] },
+
+            // SECTION 19: Процесуальний кодекс
+            { category: "cat19", code: "Пункт 19.1", title_ua: "Презумпція невинуватості", title_ru: "Презумпция невиновности", desc_ua: "Громадянин вважається невинуватим, доки вину не встановив суд. Вину доводить працівник.", desc_ru: "Гражданин считается невиновным, пока вину не установит суд.", punishment_ua: "Тлумачення сумнівів на користь затриманого", punishment_ru: "Трактовка сомнений в пользу задержанного", tags: ["19.1", "права", "суд"] },
+            { category: "cat19", code: "Пункт 19.2", title_ua: "Строк процесуальних дій", title_ru: "Срок процессуальных действий", desc_ua: "1 процесуальна година = 25 реальних хвилин. Затримання до рішення суду не перевищує 25 хв.", desc_ru: "1 процессуальный час = 25 реальных минут. Задержание до суда не более 25 мин.", punishment_ua: "Негайне звільнення після спливу 25 хв", punishment_ru: "Немедленное освобождение по истечении 25 мин", tags: ["19.2", "25 минут", "время"] },
+            { category: "cat19", code: "Пункт 19.3", title_ua: "Права й телефонний дзвінок", title_ru: "Права и телефонный звонок", desc_ua: "Право мовчати, адвокат, 1 телефонний дзвінок (надається не пізніше 3 хвилин від затримання).", desc_ru: "Право молчать, адвокат, 1 телефонный звонок (не позже 3 минут).", punishment_ua: "Обов'язкова Міранда та дзвінок", punishment_ru: "Обязательная Миранда и звонок", tags: ["19.3", "миранда", "звонок"] },
+            { category: "cat19", code: "Пункт 19.4", title_ua: "Посвідчення, підстава та обвинувачення", title_ru: "Удостоверение, основание и обвинение", desc_ua: "Працівник представляється, показує посвідчення, називає підставу та номери статей.", desc_ru: "Сотрудник представляется, показывает удостоверение и назвает статьи.", punishment_ua: "Обов'язковий запис BodyCam", punishment_ru: "Обязательная запись BodyCam", tags: ["19.4", "жетон", "бодикарта"] },
+            { category: "cat19", code: "Пункт 19.5", title_ua: "Доступ до відеофіксації", title_ru: "Доступ к видеофиксации", desc_ua: "На вимогу адвоката, прокурора чи судді працівник надає відеофіксацію підстави затримання.", desc_ru: "По требованию адвоката или прокурора предоставляется видеозапись.", punishment_ua: "Освобождение при отсутствии записи", punishment_ru: "Освобождение при отсутствии записи", tags: ["19.5", "фрапс", "видео"] },
+            { category: "cat19", code: "Пункт 19.6", title_ua: "Адвокат, прокурор і суд", title_ru: "Адвокат, прокурор и суд", desc_ua: "Адвокат дає рекомендацію. Прокурор перевіряє легітимність затримання та звільняє за порушень.", desc_ru: "Адвокат даёт рекомендации. Прокурор проверяет легитимность задержания.", punishment_ua: "Прокурорська перевірка", punishment_ru: "Прокурорская проверка", tags: ["19.6", "адвокат", "прокурор"] },
+            { category: "cat19", code: "Пункт 19.7", title_ua: "Рішення суду", title_ru: "Решение суда", desc_ua: "Суддя досліджує докази й ухвалює остаточне рішення. Обов’язкове для виконання всіма.", desc_ru: "Судья исследует доказательства и выносит окончательное решение.", punishment_ua: "Обов'язкове виконання вироку", punishment_ru: "Обязательное исполнение приговора", tags: ["19.7", "судья", "приговор"] },
+            { category: "cat19", code: "Пункт 19.8", title_ua: "Підстави звільнення", title_ru: "Основания освобождения", desc_ua: "Звільнення за рішенням суду, вимогою прокурора, відсутності складу злочину або спливу 25 хвилин.", desc_ru: "Освобождение по решению суда, прокурора или истечении 25 минут.", punishment_ua: "Негайне зняття наручників", punishment_ru: "Немедленное снятие наручников", tags: ["19.8", "освобождение", "свобода"] },
+            { category: "cat19", code: "Пункт 19.9", title_ua: "Встановлення особи в масці", title_ru: "Установление личности в маске", desc_ua: "Спочатку пропонується документ чи добровільне зняття. За відмови — затримання для ідентифікації до 5 хвилин.", desc_ru: "Сначала предлагается снять маску или показать паспорт. Задержание до 5 мин.", punishment_ua: "Затримання не довше 5 хвилин", punishment_ru: "Задержание не дольше 5 минут", tags: ["19.9", "маска", "5минут"] },
+            { category: "cat19", code: "Пункт 19.10", title_ua: "Передача процесуальних дій", title_ru: "Передача процессуальных действий", desc_ua: "Передаються затриманий, відеофіксація, підстави та час затримання. Строк 25 хвилин не обнуляється.", desc_ru: "Передаются задержанный, видеозапись и время. 25 минут не сбрасываются.", punishment_ua: "Дотримання єдиного таймера", punishment_ru: "Соблюдение единого таймера", tags: ["19.10", "передача", "таймер"] },
+            { category: "cat19", code: "Пункт 19.11", title_ua: "Підстави затримання та сила", title_ru: "Основания задержания и сила", desc_ua: "Затримання: застали під час злочину, відео/ордер або орієнтування в планшеті. Зброя — лише при загрозі життю.", desc_ru: "Задержание: застигнут на месте, видео/ордер или ориентировка. Оружие только при угрозе жизни.", punishment_ua: "Строге дотримання стадій застосування сили", punishment_ru: "Строгое соблюдение стадий применения силы", tags: ["19.11", "тайзер", "сила"] },
+            { category: "cat19", code: "Пункт 19.12", title_ua: "Допустимі докази та планшет", title_ru: "Допустимые доказательства и планшет", desc_ua: "Допустимі справжні відеозаписи, показання та дані планшета з фіксацією екрана.", desc_ru: "Допустимы настоящие видеозаписи, показания и данные планшета.", punishment_ua: "Недопущення фальсифікованих доказів", punishment_ru: "Недопущение фальсифицированных улик", tags: ["19.12", "планшет", "улики"] },
+
+            // SECTION 20: Повноваження державних органів
+            { category: "cat20", code: "Пункт 20.1", title_ua: "Повноваження НПУ", title_ru: "Полномочия НПУ", desc_ua: "НПУ має право затримувати за наявності підстав, вести процесуальні дії, оформлювати адмін- та дорожні штрафи.", desc_ru: "НПУ имеет право задерживать, вести процессуальные действия и выписывать штрафы.", punishment_ua: "Загальний правопорядок у місті", punishment_ru: "Общий правопорядок в городе", tags: ["20.1", "нпу", "полиция"] },
+            { category: "cat20", code: "Пункт 20.2", title_ua: "Повноваження СБУ", title_ru: "Полномочия СБУ", desc_ua: "СБУ затримує та веде процесуальні дії ЛИШЕ щодо кримінальних порушень. Адмінштрафи й перевірка масок заборонені.", desc_ru: "СБУ ведет дела ТОЛЬКО по уголовным нарушениям. Админштрафы запрещены.", punishment_ua: "Передача адмінпорушень до НПУ", punishment_ru: "Передача админнарушений в НПУ", tags: ["20.2", "сбу", "угрозы"] },
+            { category: "cat20", code: "Пункт 20.3", title_ua: "Повноваження ДБР", title_ru: "Полномочия ДБР", desc_ua: "ДБР здійснює нагляд і веде кримінальні справи ДЕРЖСЛУЖБОВЦІВ. Цивільних негайно передають НПУ.", desc_ru: "ДБР ведет дела ГОССЛУЖАЩИХ. Гражданских передают в НПУ.", punishment_ua: "Контроль за держслужбовцями", punishment_ru: "Контроль за госслужащими", tags: ["20.3", "дбр", "госслужащие"] },
+            { category: "cat20", code: "Пункт 20.4", title_ua: "Повноваження Прокуратури", title_ru: "Полномочия Прокуратуры", desc_ua: "Нагляд, вимога доказів, визнання затримання нелегітимним, видача ордерів. Має доступ на бази.", desc_ru: "Надзор, требование улик, признание задержания нелегитимным, ордера.", punishment_ua: "Обов'язковість постанов прокурора", punishment_ru: "Обязательность постановлений прокурора", tags: ["20.4", "прокурор", "ордер"] },
+            { category: "cat20", code: "Пункт 20.5", title_ua: "Повноваження Судді", title_ru: "Полномочия Судьи", desc_ua: "Розгляд справ, ордери та остаточний вирок. Володіє недоторканністю під час виконання.", desc_ru: "Рассмотрение дел, ордера и окончательный приговор.", punishment_ua: "Остаточне судове рішення", punishment_ru: "Окончательное судебное решение", tags: ["20.5", "судья", "приговор"] },
+            { category: "cat20", code: "Пункт 20.6", title_ua: "Повноваження Адвоката", title_ru: "Полномочия Адвоката", desc_ua: "Захист клієнта, вимога відеофіксації та надання рекомендацій. Не має поліцейських наручників.", desc_ru: "Защита клиента, требование видеозаписи и рекомендации.", punishment_ua: "Правовий захист затриманих", punishment_ru: "Правовая защита задержанных", tags: ["20.6", "адвокат", "защита"] },
+            { category: "cat20", code: "Пункт 20.7", title_ua: "Інші служби (Уряд, ДСНС, МОЗ)", title_ru: "Другие службы (Правительство, ГСЧС, МОЗ)", desc_ua: "Уряд управляє; СБП охороняє; армія та ДСНС виконують задачі. Не мають поліцейських повноважень.", desc_ru: "Правительство управляет; армия и ГСЧС выполняют задачи.", punishment_ua: "Викликають НПУ при порушеннях", punishment_ru: "Вызывают НПУ при нарушениях", tags: ["20.7", "армия", "моз"] },
+            { category: "cat20", code: "Пункт 20.8", title_ua: "Вихід за межі повноважень", title_ru: "Выход за пределы полномочий", desc_ua: "Порушення встановлених повноважень працівника держоргану.", desc_ru: "Нарушение установленных полномочий сотрудника госоргана.", punishment_ua: "Ban 1 день", punishment_ru: "Ban 1 день", tags: ["20.8", "превышение", "бан"] },
+
+            // SECTION 21: Правила державних організацій
+            { category: "cat21", code: "Пункт 21.1", title_ua: "Зловживання функціоналом", title_ru: "Злоупотребление функционалом", desc_ua: "Заборонені наручники без підстави, затримання заради XP/розваги, кайдани без причини.", desc_ru: "Запрещены наручники без основания, задержание ради XP и развлечения.", punishment_ua: "Ban 1 день; повторно протягом 30 днів — Ban 3 дні", punishment_ru: "Ban 1 день; повторно в течение 30 дней — Ban 3 дня", tags: ["21.1", "xp", "наручники", "фан"] },
+            { category: "cat21", code: "Пункт 21.2", title_ua: "Спецзасоби й службова зброя", title_ru: "Спецсредства и оружие", desc_ua: "Заборонені безпідставний тазер, шипи заради перешкод та табельна зброя для розваги.", desc_ru: "Запрещены тайзер без причины, шипы для помех и фан-стрельба.", punishment_ua: "Ban 1 день; повторно — Ban 3 дні", punishment_ru: "Ban 1 день; повторно — Ban 3 дня", tags: ["21.2", "тайзер", "шипы"] },
+            { category: "cat21", code: "Пункт 21.3", title_ua: "Службова етика й вигляд", title_ru: "Служебная этика и вид", desc_ua: "Звертання на «Ви», охайна форма, відсутність яскравого волосся, фурі-шоломів та аксесуарів.", desc_ru: "Обращение на «Вы», опрятная форма, отсутствие фурри-шлемов и ярких волос.", punishment_ua: "Warn → Kick → Ban 1 день", punishment_ru: "Warn → Kick → Ban 1 день", tags: ["21.3", "формы", "волосы", "этика"] },
+            { category: "cat21", code: "Пункт 21.4", title_ua: "Заборона фальсифікації", title_ru: "Запрет фальсификации", desc_ua: "Заборонено підробляти записи, посвідчення, ордери та приховувати виправдувальні докази.", desc_ru: "Запрещено подделывать записи, ордера и скрывать оправдательные улики.", punishment_ua: "Ban 3 дні; повторно — Ban 7 днів", punishment_ru: "Ban 3 дня; повторно — Ban 7 дней", tags: ["21.4", "подлог", "фальсификация"] },
+            { category: "cat21", code: "Пункт 21.5", title_ua: "Виконання рішень", title_ru: "Исполнение решений", desc_ua: "Заборонено умисно ігнорувати рішення суду, вимогу прокурора про звільнення чи доступ адвоката.", desc_ru: "Запрещено игнорировать решение суда, требование прокурора или адвоката.", punishment_ua: "Ban 1 день; повторно — Ban 3 дні", punishment_ru: "Ban 1 день; повторно — Ban 3 дня", tags: ["21.5", "игнор", "прокурор"] },
+
+            // SECTION 22: Правила кримінальних організацій (REPLACED GETTO WITH ТЕРИТОРІЯ БАНДИ)
+            { category: "cat22", code: "Пункт 22.1", title_ua: "Участь і територія банди", title_ru: "Участие и территория банды", desc_ua: "Кримінальна діяльність ведеться в територія банди. Напади поза територією регулюються основними правилами ЗЗ.", desc_ru: "Криминальная деятельность ведется в территория банды. Нападения вне зоны регулируются ЗЗ.", punishment_ua: "Наказання згідно з зонами дій", punishment_ru: "Наказание согласно зонам действий", tags: ["22.1", "територія банди", "территория банды", "крайм"] },
+            { category: "cat22", code: "Пункт 22.2", title_ua: "Злив складу", title_ru: "Слив склада", desc_ua: "Заборонено передавати зброю, боєприпаси й майно організації стороннім та через твінки.", desc_ru: "Запрещено передавать оружие и имущество организации третьим лицам.", punishment_ua: "Ban 7 днів; повторно — Ban 14 днів", punishment_ru: "Ban 7 дней; повторно — Ban 14 дней", tags: ["22.2", "слив", "склад"] },
+            { category: "cat22", code: "Пункт 22.3", title_ua: "Вхід за держслужбовця", title_ru: "Вход за госслужащего", desc_ua: "Учаснику крайму заборонено входити до держфракції для розвідки, зброї або допомоги крайму.", desc_ru: "Участнику крайма запрещено вступать в госфракции для разведки и помощи крайму.", punishment_ua: "Ban 7 днів → Ban 14 днів → Permanent Ban", punishment_ru: "Ban 7 дней → Ban 14 дней → Permanent Ban", tags: ["22.3", "гос", "шпион", "крайм"] },
+            { category: "cat22", code: "Пункт 22.4", title_ua: "Пограбування та відмички", title_ru: "Ограбления и отмычки", desc_ua: "Пограбування дозволені в територія банди. Відмички в ЗЗ заборонені. Заборонено вимагати доступи до акаунтів.", desc_ru: "Ограбления разрешены в территория банды. Отмычки в ЗЗ запрещены.", punishment_ua: "Ban 1–3 дні; за спробу доступу до акаунта — Permanent Ban", punishment_ru: "Ban 1–3 дня; за попытку взлома аккаунта — Permanent Ban", tags: ["22.4", "грабеж", "отмычки", "аккаунт"] },
+            { category: "cat22", code: "Пункт 22.5", title_ua: "Лідер і повторність", title_ru: "Лидер и повторность", desc_ua: "Лідер відповідає за свої вказівки. Повторність враховується протягом 30 днів за тим самим пунктом.", desc_ru: "Лидер отвечает за свои указания. Повторность учитывается в течение 30 дней.", punishment_ua: "Строгі дисциплінарні санкції до лідера", punishment_ru: "Строгие дисциплинарные санкции к лидеру", tags: ["22.5", "лидер", "выговор"] }
+        ];
+
+        // GUARANTEED WORKING LANGUAGE SELECTION FUNCTION
+        window.selectLang = function(lang) {
+            hapticFeedback();
+            window.currentLang = (lang === 'ru') ? 'ru' : 'ua';
+            
+            try {
+                localStorage.setItem('lviv_rp_lang', window.currentLang);
+            } catch (e) {
+                console.warn("localStorage locked", e);
+            }
+
+            const modal = document.getElementById('lang-modal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+
+            window.renderAll();
+        };
+
+        // TOGGLE LANGUAGE VIA HEADER BUTTON
+        window.toggleLang = function() {
+            hapticFeedback();
+            window.currentLang = (window.currentLang === 'ua') ? 'ru' : 'ua';
+            
+            try {
+                localStorage.setItem('lviv_rp_lang', window.currentLang);
+            } catch (e) {}
+
+            window.renderAll();
+        };
+
+        // RENDER ALL INTERFACE ELEMENTS
+        window.renderAll = function() {
+            const lang = window.currentLang;
+            const dict = i18n[lang];
+
+            // Header & Search localization
+            document.getElementById('current-lang-pill').innerText = lang.toUpperCase();
+            document.getElementById('app-header-subtitle').innerText = dict.subtitle;
+            document.getElementById('search-input').placeholder = dict.placeholder;
+            document.getElementById('count-label').innerText = dict.countLabel;
+            document.getElementById('no-res-title').innerText = dict.noResTitle;
+            document.getElementById('no-res-desc').innerText = dict.noResDesc;
+            document.getElementById('reset-search-btn').innerText = dict.resetSearch;
+
+            window.renderCategories();
+            window.renderContent();
+        };
+
+        // RENDER CATEGORIES AS LARGE TOUCH CARDS IN 2-COLUMN GRID
+        window.renderCategories = function() {
+            const lang = window.currentLang;
+            const dict = i18n[lang];
+            const container = document.getElementById('category-pills');
+
+            const categoriesKeys = [
+                'all', 'cat1', 'cat2', 'cat3', 'cat4', 'cat5', 'cat6', 'cat7', 'cat8',
+                'cat9', 'cat10', 'cat11', 'cat12', 'cat13', 'cat14', 'cat15', 'cat16',
+                'cat17', 'cat18', 'cat19', 'cat20', 'cat21', 'cat22'
+            ];
+
+            container.innerHTML = categoriesKeys.map(key => {
+                const isActive = window.activeCategory === key;
+                const icon = categoryIcons[key] || "fa-folder";
+                const label = dict.categories[key] || key;
+
+                let count = 0;
+                if (key === 'all') count = rulesData.length;
+                else count = rulesData.filter(r => r.category === key).length;
+
+                return `
+                    <button 
+                        type="button"
+                        onclick="window.setCategory('${key}')"
+                        class="p-3 rounded-xl flex flex-col justify-between text-left transition-all active:scale-95 ${isActive ? 'glass-card-active border-gold-500' : 'glass-card hover:border-gold-500/40'}"
+                    >
+                        <div class="flex items-center justify-between w-full mb-1">
+                            <span class="w-7 h-7 rounded-lg ${isActive ? 'bg-gold-500 text-coffee-950' : 'bg-coffee-800 text-gold-400'} flex items-center justify-center text-xs">
+                                <i class="fa-solid ${icon}"></i>
+                            </span>
+                            <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-full ${isActive ? 'bg-gold-500/20 text-gold-300' : 'bg-coffee-950/60 text-cream-400'}">
+                                ${count}
+                            </span>
+                        </div>
+                        <span class="text-xs font-bold ${isActive ? 'text-gold-300' : 'text-cream-200'} leading-snug">
+                            ${label}
+                        </span>
+                    </button>
+                `;
+            }).join('');
+        };
+
+        // SWITCH CATEGORY
+        window.setCategory = function(catKey) {
+            hapticFeedback();
+            window.activeCategory = catKey;
+            window.renderCategories();
+            window.renderContent();
+        };
+
+        // RENDER RULES LIST
+        window.renderContent = function() {
+            const lang = window.currentLang;
+            const dict = i18n[lang];
+            const rulesContainer = document.getElementById('rules-container');
+            const noResults = document.getElementById('no-results');
+            const sectionTitle = document.getElementById('section-title');
+            const rulesCount = document.getElementById('rules-count');
+
+            // Set Section Title
+            const icon = categoryIcons[window.activeCategory] || "fa-book";
+            const titleText = dict.titles[window.activeCategory] || dict.titles.all;
+            sectionTitle.innerHTML = `<i class="fa-solid ${icon} text-gold-500"></i> <span>${titleText}</span>`;
+
+            // FILTER RULES
+            let filtered = rulesData;
+            if (window.activeCategory !== 'all') {
+                filtered = filtered.filter(r => r.category === window.activeCategory);
+            }
+
+            if (window.searchQuery.length > 0) {
+                const q = window.searchQuery;
+                filtered = filtered.filter(rule => {
+                    const title = (lang === 'ua' ? rule.title_ua : rule.title_ru).toLowerCase();
+                    const desc = (lang === 'ua' ? rule.desc_ua : rule.desc_ru).toLowerCase();
+                    const code = rule.code.toLowerCase();
+                    const tags = (rule.tags || []).join(' ').toLowerCase();
+                    return title.includes(q) || desc.includes(q) || code.includes(q) || tags.includes(q);
+                });
+            }
+
+            rulesCount.innerText = filtered.length;
+
+            if (filtered.length === 0) {
+                rulesContainer.classList.add('hidden');
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+            rulesContainer.classList.remove('hidden');
+
+            rulesContainer.innerHTML = filtered.map(rule => {
+                const title = lang === 'ua' ? rule.title_ua : rule.title_ru;
+                const desc = lang === 'ua' ? rule.desc_ua : rule.desc_ru;
+                const punishment = lang === 'ua' ? rule.punishment_ua : rule.punishment_ru;
+
+                return `
+                    <div class="glass-card rounded-2xl p-4 space-y-3 transition-all border border-gold-600/20 hover:border-gold-500/40">
+                        <!-- Rule Header -->
+                        <div class="flex items-center justify-between gap-2 border-b border-gold-600/15 pb-2.5">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-gradient-to-r from-gold-500 to-gold-600 text-coffee-950 font-black text-xs px-2.5 py-1 rounded-lg font-mono shadow-sm">
+                                    ${rule.code}
+                                </span>
+                                <h3 class="font-serif font-bold text-sm sm:text-base text-cream-100">${title}</h3>
+                            </div>
+                            <button type="button" onclick="window.copyRule('${rule.code}')" class="text-xs text-gold-400 hover:text-gold-300 px-2.5 py-1 rounded-lg bg-coffee-900 border border-gold-600/30 flex items-center gap-1.5 active:scale-90 transition-transform shadow-sm shrink-0">
+                                <i class="fa-regular fa-copy text-gold-500"></i>
+                                <span class="text-[10px] uppercase font-bold tracking-wider">${dict.copyBtn}</span>
+                            </button>
+                        </div>
+
+                        <!-- Rule Description -->
+                        <p class="text-xs sm:text-sm text-cream-200 leading-relaxed font-normal">${desc}</p>
+
+                        <!-- Punishment Block -->
+                        <div class="pt-1">
+                            <div class="bg-gradient-to-r from-red-950/40 via-coffee-900 to-coffee-950 p-2.5 rounded-xl border border-red-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 shadow-inner">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded-lg bg-red-900/60 border border-red-500/40 flex items-center justify-center shrink-0">
+                                        <i class="fa-solid fa-gavel text-red-400 text-xs"></i>
+                                    </span>
+                                    <span class="text-[11px] font-bold uppercase tracking-wider text-red-400 font-mono">
+                                        ${dict.punishmentLabel}
+                                    </span>
+                                </div>
+                                <div class="text-xs font-semibold text-cream-100 pl-8 sm:pl-0">
+                                    ${punishment}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        // SEARCH HANDLERS
+        window.handleSearch = function() {
+            const input = document.getElementById('search-input');
+            const clearBtn = document.getElementById('clear-search');
+            window.searchQuery = input.value.trim().toLowerCase();
+
+            if (window.searchQuery.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+            window.renderContent();
+        };
+
+        window.clearSearch = function() {
+            hapticFeedback();
+            const input = document.getElementById('search-input');
+            input.value = '';
+            window.searchQuery = '';
+            document.getElementById('clear-search').classList.add('hidden');
+            window.renderContent();
+        };
+
+        // COPY RULE TO CLIPBOARD
+        window.copyRule = function(code) {
+            hapticFeedback();
+            const rule = rulesData.find(r => r.code === code);
+            if (!rule) return;
+
+            const lang = window.currentLang;
+            const title = lang === 'ua' ? rule.title_ua : rule.title_ru;
+            const desc = lang === 'ua' ? rule.desc_ua : rule.desc_ru;
+            const punishment = lang === 'ua' ? rule.punishment_ua : rule.punishment_ru;
+
+            const text = `[Львів RP] ${rule.code} - ${title}: ${desc} (${punishment})`;
+
+            try {
+                const dummy = document.createElement('textarea');
+                document.body.appendChild(dummy);
+                dummy.value = text;
+                dummy.select();
+                document.execCommand('copy');
+                document.body.removeChild(dummy);
+            } catch(e) {}
+
+            window.showToast(i18n[lang].copySuccess);
+        };
+
+        // TOAST NOTIFICATION
+        window.showToast = function(msg) {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = 'bg-coffee-900 border border-gold-500 text-gold-400 px-4 py-2 rounded-xl text-xs font-bold shadow-2xl transition-all duration-300 opacity-0 translate-y-2';
+            toast.innerText = msg;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-0', 'translate-y-2');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        };
+
+        // ON PAGE LOAD INIT
+        document.addEventListener('DOMContentLoaded', function() {
+            let savedLang = null;
+            try {
+                savedLang = localStorage.getItem('lviv_rp_lang');
+            } catch(e) {}
+
+            const modal = document.getElementById('lang-modal');
+
+            if (savedLang === 'ua' || savedLang === 'ru') {
+                window.currentLang = savedLang;
+                if (modal) modal.style.display = 'none';
+            } else {
+                window.currentLang = 'ua';
+                if (modal) modal.style.display = 'flex';
+            }
+
+            window.renderAll();
+        });
+    </script>
+</body>
+</html>
